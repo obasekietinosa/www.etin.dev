@@ -1,0 +1,35 @@
+---
+import type { Project } from "../domains/Projects";
+import Badge from "../components/Badge.astro";
+import Button from "../components/Button.astro";
+import cx from "clsx";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<div
+  class={cx(
+    "flex items-start even:flex-row-reverse gap-6 pb-8",
+    "last:border-none border-b border-opacity-50 border-b-primary"
+  )}
+>
+  <div class="w-1/3">
+    <img
+      class="h-full w-full shadow-md shadow-primary-dark"
+      src={project.image}
+      alt="image showing the project"
+    />
+  </div>
+  <div class="w-2/3">
+    <h3 class="font-semibold text-2xl">{project.title}</h3>
+    <Badge class="my-3" {...project.status} />
+    <p class="text-xl mb-6">{project.description}</p>
+    <Button size="sm" as="a" href={`#/projects/${project.slug}`}>
+      More detail
+    </Button>
+  </div>
+</div>

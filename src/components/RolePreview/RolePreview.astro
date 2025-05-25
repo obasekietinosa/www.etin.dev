@@ -1,0 +1,35 @@
+---
+import { formatRoleDate, type Role } from "../../domains/Roles";
+
+interface Props {
+  role: Role;
+}
+
+const { role } = Astro.props;
+---
+
+<div class="first:pt-6 last:pb-12 pl-9">
+  <div class="flex relative items-center gap-4">
+    <div class="absolute -left-9 w-5 h-5 rounded-full bg-primary"></div>
+    <h4 class="font-bold text-2xl">
+      {role.title}
+      {
+        role.subtitle && (
+          <>
+            , <span class="font-extralight">{role.subtitle}</span>
+          </>
+        )
+      }
+    </h4>
+  </div>
+  <div class="text-xl font-extralight">
+    <div class="my-3 flex items-center gap-2">
+      <img class="h-6" src={role.companyIcon} alt="" />
+      <div>
+        {role.company} | {formatRoleDate(role.startDate)} —{" "}
+        {role.endDate ? formatRoleDate(role.endDate) : "Present"}
+      </div>
+    </div>
+    <p>{role.description}</p>
+  </div>
+</div>

@@ -1,16 +1,71 @@
 ---
-
+import Button from "../components/Button.astro";
+import ProjectPreview from "../components/ProjectPreview.astro";
+import RolePreview from "../components/RolePreview/RolePreview.astro";
+import RolePreviewLayout from "../components/RolePreview/RolePreviewLayout.astro";
+import NotePreviewList from "../components/NotePreview/NotePreviewList.astro";
+import NotePreview from "../components/NotePreview/NotePreview.astro";
+import { ROLES } from "../domains/Roles";
+import { PROJECTS } from "../domains/Projects";
+import { NOTES } from "../domains/Notes";
+import Layout from "../layouts/Layout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <header>
+    <div class="pt-8">
+      <h1 class="text-6xl font-bold">
+        <span class="block mb-4">Etin</span>
+        <span class="block">Obaseki.</span>
+      </h1>
+      <h3 class="text-3xl mt-3">Software Engineer.</h3>
+    </div>
+    <hr class="border-primary border-1 mt-12 mb-8" />
+  </header>
+  <main>
+    <section class="px-4 md:px-8">
+      <h2 class="text-4xl mb-6 text-center font-semibold">Career Highlights</h2>
+      <p class="text-2xl font-extralight">
+        I currently work in health-tech as a software engineer. A few of my most
+        recent roles have been in health-tech or orthogonal to it, so you can
+        say I’m becoming something of a specialist.
+      </p>
+      <RolePreviewLayout>
+        {ROLES.map((role) => <RolePreview role={role} />)}
+      </RolePreviewLayout>
+    </section>
+    <section class="pt-8 px-4 md:px-8">
+      <h2 class="text-4xl mt-8 mb-6 text-center font-semibold">
+        Recent Projects
+      </h2>
+      <p class="text-2xl font-extralight">
+        I aspire to regularly do cool things and talk about them here. If this
+        section isn’t getting regularly updated, it signifies some sort of
+        personal failing on my part which must be rectified.
+      </p>
+      <div>
+        <div class="my-12 space-y-12">
+          {PROJECTS.map((project) => <ProjectPreview project={project} />)}
+        </div>
+        <div class="text-center">
+          <Button>See 12 more projects</Button>
+        </div>
+      </div>
+    </section>
+    <section class="pt-8 px-4 md:px-8">
+      <h2 class="text-4xl mt-8 mb-6 text-center font-semibold">Writing</h2>
+      <p class="text-2xl font-extralight">
+        I like to write. This section of my website contains writing from
+        different spheres of my life. Use the filters below to get more specific
+        topics or genres. Any opinions expressed are solely mine.
+      </p>
+      <NotePreviewList class="my-12 space-y-12">
+        {NOTES.map((note) => <NotePreview note={note} />)}
+      </NotePreviewList>
+      <div class="text-center">
+        <Button href="#/writing"> See all writing </Button>
+      </div>
+    </section>
+  </main>
+  <footer></footer>
+</Layout>

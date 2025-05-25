@@ -1,0 +1,27 @@
+---
+import type { Note } from "../../domains/Notes";
+import Badge from "../Badge.astro";
+import Button from "../Button.astro";
+import cx from "clsx";
+
+interface Props {
+  note: Note;
+}
+
+const { note } = Astro.props;
+---
+
+<li
+  class={cx(
+    "[counter-increment:section] pl-6",
+    "marker:content-counter marker:text-primary-dark",
+    "marker:font-bold marker:text-4xl"
+  )}
+>
+  <h3 class="font-semibold text-3xl mb-6">{note.title}</h3>
+  <div class="flex gap-6">
+    {note.tags.map((tag) => <Badge key={tag.name} {...tag} />)}
+  </div>
+  <p class="text-xl mb-6">{note.preview}</p>
+  <Button size="sm" as="a" href={`#/note/${note.id}`}> Read now </Button>
+</li>

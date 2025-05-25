@@ -1,0 +1,38 @@
+---
+import clsx from "clsx";
+
+export interface ButtonProps {
+  as?: string;
+  size?: "lg" | "sm";
+  href?: string;
+  class?: string;
+  [prop: string]: any; // for spreading additional props
+}
+
+const { class: className, size = "lg", href, ...props } = Astro.props;
+
+const classes = clsx(
+  "inline-block rounded-lg bg-primary",
+  "font-bold text-secondary",
+  "shadow-bulge shadow-primary-dark active:shadow-none mb-1 active:mt-1 active:mb-0 transition-all",
+  {
+    "py-3 px-6 text-lg md:text-xl": size === "lg",
+    "py-1 px-6 text-md md:text-lg": size === "sm",
+  },
+  className
+);
+---
+
+<>
+  {
+    href ? (
+      <a href={href} class={classes} {...props}>
+        <slot />
+      </a>
+    ) : (
+      <button class={classes} {...props}>
+        <slot />
+      </button>
+    )
+  }
+</>

@@ -1,0 +1,49 @@
+---
+import cx from "clsx";
+import type { Tag } from "../domains/Tags";
+
+type BadgeProps = {
+  icon: string;
+  name: string;
+  class: string;
+  color: Tag["color"];
+  [prop: string]: any; // for spreading additional props
+};
+
+const { class: className, icon, name, color, ...props } = Astro.props;
+---
+
+<div class={cx("flex items-center", className)} {...props}>
+  <div
+    class={cx(
+      "w-9 h-9 leading-9 z-10",
+      "rounded-full text-xl text-center",
+      { "bg-emerald-600": color === "green" },
+      { "bg-red-600": color === "red" },
+      { "bg-sky-600": color === "blue" },
+      { "bg-primary-dark": color === "beige" },
+      { "bg-yellow-600": color === "peach" },
+      { "bg-purple-600": color === "purple" }
+    )}
+  >
+    {icon}
+  </div>
+  <div
+    class={cx(
+      "text-sm shadow-bulge-sm",
+      "px-2 py-1 pl-4 -ml-4",
+      "rounded-l-none rounded-md",
+      {
+        "bg-emerald-600 shadow-emerald-800": color === "green",
+        "bg-red-600 shadow-red-800": color === "red",
+        "bg-sky-600 shadow-sky-800": color === "blue",
+        "bg-primary-dark shadow-primary-darker text-secondary":
+          color === "beige",
+        "bg-yellow-600 shadow-yellow-800 text-secondary": color === "peach",
+        "bg-purple-600 shadow-purple-800": color === "purple",
+      }
+    )}
+  >
+    {name}
+  </div>
+</div>
