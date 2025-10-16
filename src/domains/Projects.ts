@@ -1,3 +1,4 @@
+import { fetchFromApi, logApiError, unwrapDataArray } from "../utils/api";
 import type { Tag } from "./Tags";
 
 export type Project = {
@@ -47,3 +48,20 @@ export const PROJECTS: Project[] = [
     technologies: ["React", "Golang"],
   },
 ];
+
+export const getProjects = async (): Promise<Project[]> => {
+  try {
+    const payload = await fetchFromApi<Project[] | { data?: Project[] }>(
+      "/projects"
+    );
+    const projects = unwrapDataArray<Project>(payload);
+
+    if (projects.length) {
+      return projects;
+    }
+  } catch (error) {
+    logApiError("Unable to load projects", error);
+  }
+
+  return PROJECTS;
+};

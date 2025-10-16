@@ -1,3 +1,5 @@
+import { fetchFromApi, logApiError, unwrapDataArray } from "../utils/api";
+
 export type Role = {
   roleId: number;
   startDate: string;
@@ -47,3 +49,18 @@ export const ROLES: Role[] = [
     skills: ["JavaScript", "React", "Typescript", "C#"],
   },
 ];
+
+export const getRoles = async (): Promise<Role[]> => {
+  try {
+    const payload = await fetchFromApi<Role[] | { data?: Role[] }>("/roles");
+    const roles = unwrapDataArray<Role>(payload);
+
+    if (roles.length) {
+      return roles;
+    }
+  } catch (error) {
+    logApiError("Unable to load roles", error);
+  }
+
+  return ROLES;
+};
