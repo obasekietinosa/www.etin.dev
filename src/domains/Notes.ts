@@ -58,7 +58,9 @@ export const NOTES: Note[] = [
 
 export const getNotes = async (): Promise<Note[]> => {
   try {
-    const payload = await fetchFromApi<Note[] | { data?: Note[] }>("/notes");
+    const payload = await fetchFromApi<Note[] | { data?: Note[] }>(
+      "/public/notes"
+    );
     const notes = unwrapDataArray<Note>(payload);
 
     if (notes.length) {

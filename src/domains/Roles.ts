@@ -52,7 +52,9 @@ export const ROLES: Role[] = [
 
 export const getRoles = async (): Promise<Role[]> => {
   try {
-    const payload = await fetchFromApi<Role[] | { data?: Role[] }>("/roles");
+    const payload = await fetchFromApi<Role[] | { data?: Role[] }>(
+      "/public/roles"
+    );
     const roles = unwrapDataArray<Role>(payload);
 
     if (roles.length) {

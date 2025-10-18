@@ -52,7 +52,7 @@ export const PROJECTS: Project[] = [
 export const getProjects = async (): Promise<Project[]> => {
   try {
     const payload = await fetchFromApi<Project[] | { data?: Project[] }>(
-      "/projects"
+      "/public/projects"
     );
     const projects = unwrapDataArray<Project>(payload);
 
