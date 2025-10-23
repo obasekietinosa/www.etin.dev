@@ -1,4 +1,4 @@
-import { fetchFromApi, logApiError, unwrapDataArray } from "../utils/api";
+import { API_ENDPOINTS, fetchFromApi, logApiError } from "../utils/api";
 import type { Tag } from "./Tags";
 
 export type Note = {
@@ -11,12 +11,12 @@ export type Note = {
   tags: Tag[];
 };
 
+type NotesResponse = { notes?: Note[] };
+
 export const getNotes = async (): Promise<Note[]> => {
   try {
-    const payload = await fetchFromApi<Note[] | { data?: Note[] }>(
-      "/public/v1/notes"
-    );
-    return unwrapDataArray<Note>(payload);
+    const payload = await fetchFromApi<NotesResponse>(API_ENDPOINTS.notes);
+    return payload.notes ?? [];
   } catch (error) {
     logApiError("Unable to load notes", error);
     throw error;
