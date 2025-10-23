@@ -34,18 +34,6 @@ export const fetchFromApi = async <T>(path: string): Promise<T> => {
   return (await response.json()) as T;
 };
 
-export const unwrapDataArray = <T>(payload: { data?: T[] } | T[]): T[] => {
-  if (Array.isArray(payload)) {
-    return payload;
-  }
-
-  if (payload && Array.isArray((payload as { data?: T[] }).data)) {
-    return (payload as { data?: T[] }).data ?? [];
-  }
-
-  return [];
-};
-
 export const logApiError = (message: string, error: unknown) => {
   const reason =
     error instanceof Error ? `${error.message}\n${error.stack ?? ""}` : String(error);

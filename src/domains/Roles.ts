@@ -1,9 +1,4 @@
-import {
-  API_ENDPOINTS,
-  fetchFromApi,
-  logApiError,
-  unwrapDataArray,
-} from "../utils/api";
+import { API_ENDPOINTS, fetchFromApi, logApiError } from "../utils/api";
 
 export type Role = {
   roleId: number;
@@ -26,12 +21,12 @@ export const formatRoleDate = (isoDateString: string) => {
   });
 };
 
+type RolesResponse = { roles?: Role[] };
+
 export const getRoles = async (): Promise<Role[]> => {
   try {
-    const payload = await fetchFromApi<Role[] | { data?: Role[] }>(
-      API_ENDPOINTS.roles
-    );
-    return unwrapDataArray<Role>(payload);
+    const payload = await fetchFromApi<RolesResponse>(API_ENDPOINTS.roles);
+    return payload.roles ?? [];
   } catch (error) {
     logApiError("Unable to load roles", error);
     throw error;
