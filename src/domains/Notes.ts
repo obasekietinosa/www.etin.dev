@@ -1,4 +1,9 @@
-import { fetchFromApi, logApiError, unwrapDataArray } from "../utils/api";
+import {
+  API_ENDPOINTS,
+  fetchFromApi,
+  logApiError,
+  unwrapDataArray,
+} from "../utils/api";
 import type { Tag } from "./Tags";
 
 export type Note = {
@@ -14,7 +19,7 @@ export type Note = {
 export const getNotes = async (): Promise<Note[]> => {
   try {
     const payload = await fetchFromApi<Note[] | { data?: Note[] }>(
-      "/public/v1/notes"
+      API_ENDPOINTS.notes
     );
     return unwrapDataArray<Note>(payload);
   } catch (error) {

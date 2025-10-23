@@ -1,4 +1,9 @@
-import { fetchFromApi, logApiError, unwrapDataArray } from "../utils/api";
+import {
+  API_ENDPOINTS,
+  fetchFromApi,
+  logApiError,
+  unwrapDataArray,
+} from "../utils/api";
 
 export type Role = {
   roleId: number;
@@ -24,7 +29,7 @@ export const formatRoleDate = (isoDateString: string) => {
 export const getRoles = async (): Promise<Role[]> => {
   try {
     const payload = await fetchFromApi<Role[] | { data?: Role[] }>(
-      "/public/v1/roles"
+      API_ENDPOINTS.roles
     );
     return unwrapDataArray<Role>(payload);
   } catch (error) {

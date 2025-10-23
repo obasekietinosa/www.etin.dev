@@ -1,4 +1,9 @@
-import { fetchFromApi, logApiError, unwrapDataArray } from "../utils/api";
+import {
+  API_ENDPOINTS,
+  fetchFromApi,
+  logApiError,
+  unwrapDataArray,
+} from "../utils/api";
 import type { Tag } from "./Tags";
 
 export type Project = {
@@ -16,7 +21,7 @@ export type Project = {
 export const getProjects = async (): Promise<Project[]> => {
   try {
     const payload = await fetchFromApi<Project[] | { data?: Project[] }>(
-      "/public/v1/projects"
+      API_ENDPOINTS.projects
     );
     return unwrapDataArray<Project>(payload);
   } catch (error) {
