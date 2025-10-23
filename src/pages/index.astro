@@ -15,6 +15,9 @@ const [roles, projects, notes] = await Promise.all([
   getProjects(),
   getNotes(),
 ]);
+
+const displayedRoles = roles.slice(0, 2);
+const remainingRoleCount = Math.max(roles.length - displayedRoles.length, 0);
 ---
 
 <Layout>
@@ -36,8 +39,8 @@ const [roles, projects, notes] = await Promise.all([
         recent roles have been in health-tech or orthogonal to it, so you can
         say I’m becoming something of a specialist.
       </p>
-      <RolePreviewLayout>
-        {roles.map((role) => <RolePreview role={role} />)}
+      <RolePreviewLayout remainingCount={remainingRoleCount}>
+        {displayedRoles.map((role) => <RolePreview role={role} />)}
       </RolePreviewLayout>
     </section>
     <section class="pt-8 px-4 md:px-8">
