@@ -9,6 +9,7 @@ import { getRoles } from "../domains/Roles";
 import { getProjects } from "../domains/Projects";
 import { getNotes } from "../domains/Notes";
 import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
 
 const [roles, projects, notes] = await Promise.all([
   getRoles(),
@@ -22,58 +23,64 @@ const remainingRoleCount = Math.max(roles.length - displayedRoles.length, 0);
 
 <Layout>
   <header>
-    <div class="pt-8">
+    <div class="pt-8 text-primary">
       <h1 class="text-6xl font-bold">
         <span class="block mb-4">Etin</span>
         <span class="block">Obaseki.</span>
       </h1>
       <h3 class="text-3xl mt-3">Software Engineer.</h3>
     </div>
-    <hr class="border-primary border mt-12 mb-8" />
+    <hr class="border-primary border-2 mt-12 mb-8" />
   </header>
-  <main>
-    <section class="px-4 md:px-8">
-      <h2 class="text-4xl mb-6 text-center font-semibold">Career Highlights</h2>
-      <p class="text-2xl font-extralight">
-        I currently work in health-tech as a software engineer. A few of my most
-        recent roles have been in health-tech or orthogonal to it, so you can
-        say I’m becoming something of a specialist.
-      </p>
-      <RolePreviewLayout remainingCount={remainingRoleCount}>
-        {displayedRoles.map((role) => <RolePreview role={role} />)}
-      </RolePreviewLayout>
+  <main class="space-y-12">
+    <section class="px-0 md:px-4">
+      <Card>
+        <h2 class="text-4xl mb-6 text-center font-semibold">Career Highlights</h2>
+        <p class="text-2xl font-extralight mb-8">
+          I currently work in health-tech as a software engineer. A few of my most
+          recent roles have been in health-tech or orthogonal to it, so you can
+          say I’m becoming something of a specialist.
+        </p>
+        <RolePreviewLayout remainingCount={remainingRoleCount}>
+          {displayedRoles.map((role) => <RolePreview role={role} />)}
+        </RolePreviewLayout>
+      </Card>
     </section>
-    <section class="pt-8 px-4 md:px-8">
-      <h2 class="text-4xl mt-8 mb-6 text-center font-semibold">
-        Recent Projects
-      </h2>
-      <p class="text-2xl font-extralight">
-        I aspire to regularly do cool things and talk about them here. If this
-        section isn’t getting regularly updated, it signifies some sort of
-        personal failing on my part which must be rectified.
-      </p>
-      <div>
-        <div class="my-12 space-y-12">
-          {projects.map((project) => <ProjectPreview project={project} />)}
+    <section class="px-0 md:px-4">
+      <Card>
+        <h2 class="text-4xl mb-6 text-center font-semibold">
+          Recent Projects
+        </h2>
+        <p class="text-2xl font-extralight">
+          I aspire to regularly do cool things and talk about them here. If this
+          section isn’t getting regularly updated, it signifies some sort of
+          personal failing on my part which must be rectified.
+        </p>
+        <div>
+          <div class="my-12 space-y-12">
+            {projects.map((project) => <ProjectPreview project={project} />)}
+          </div>
+          <div class="text-center">
+            <Button variant="secondary">See 12 more projects</Button>
+          </div>
         </div>
+      </Card>
+    </section>
+    <section class="px-0 md:px-4">
+      <Card>
+        <h2 class="text-4xl mb-6 text-center font-semibold">Writing</h2>
+        <p class="text-2xl font-extralight">
+          I like to write. This section of my website contains writing from
+          different spheres of my life. Use the filters below to get more specific
+          topics or genres. Any opinions expressed are solely mine.
+        </p>
+        <NotePreviewList class="my-12 space-y-12">
+          {notes.map((note) => <NotePreview note={note} />)}
+        </NotePreviewList>
         <div class="text-center">
-          <Button>See 12 more projects</Button>
+          <Button variant="secondary" href="#/writing"> See all writing </Button>
         </div>
-      </div>
-    </section>
-    <section class="pt-8 px-4 md:px-8">
-      <h2 class="text-4xl mt-8 mb-6 text-center font-semibold">Writing</h2>
-      <p class="text-2xl font-extralight">
-        I like to write. This section of my website contains writing from
-        different spheres of my life. Use the filters below to get more specific
-        topics or genres. Any opinions expressed are solely mine.
-      </p>
-      <NotePreviewList class="my-12 space-y-12">
-        {notes.map((note) => <NotePreview note={note} />)}
-      </NotePreviewList>
-      <div class="text-center">
-        <Button href="#/writing"> See all writing </Button>
-      </div>
+      </Card>
     </section>
   </main>
   <footer></footer>
