@@ -14,7 +14,7 @@ const { note } = Astro.props;
 <li
   class={cx(
     "[counter-increment:section] pl-6",
-    "marker:content-counter marker:text-primary-dark",
+    "marker:content-counter marker:text-secondary",
     "marker:font-bold marker:text-4xl"
   )}
 >
@@ -23,5 +23,5 @@ const { note } = Astro.props;
     {note.tags.map((tag) => <Badge key={tag.name} {...tag} />)}
   </div>
   <p class="text-xl mb-6">{note.preview}</p>
-  <Button size="sm" as="a" href={`#/note/${note.id}`}> Read now </Button>
+  <Button variant="secondary" size="sm" as="a" href={`#/note/${note.id}`}> Read now </Button>
 </li>

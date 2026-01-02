@@ -6,16 +6,19 @@ export interface ButtonProps {
   size?: "lg" | "sm";
   href?: string;
   class?: string;
-  [prop: string]: any; // for spreading additional props
+  variant?: "primary" | "secondary";
+  [prop: string]: any;
 }
 
-const { class: className, size = "lg", href, ...props } = Astro.props;
+const { class: className, size = "lg", href, variant = "primary", ...props } = Astro.props;
 
 const classes = clsx(
-  "inline-block rounded-lg bg-primary",
-  "font-bold text-secondary",
-  "shadow-bulge shadow-primary-dark active:shadow-none mb-1 active:mt-1 active:mb-0 transition-all",
+  "inline-block rounded-lg",
+  "font-bold",
+  "shadow-bulge active:shadow-none mb-1 active:mt-1 active:mb-0 transition-all",
   {
+    "bg-primary text-secondary shadow-primary-dark": variant === "primary",
+    "bg-secondary text-primary shadow-primary-darker": variant === "secondary",
     "py-3 px-6 text-lg md:text-xl": size === "lg",
     "py-1 px-6 text-md md:text-lg": size === "sm",
   },

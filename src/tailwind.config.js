@@ -1,16 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  darkMode: 'class', // Enable class-based dark mode
   theme: {
     extend: {
       colors: {
         secondary: {
-          DEFAULT: "#373F51",
+          DEFAULT: "var(--color-secondary)",
         },
         primary: {
-          DEFAULT: "#FFF6EA",
-          dark: "#BBB2A7",
-          darker: "#7A7672",
+          DEFAULT: "var(--color-primary)",
+          dark: "var(--color-primary-dark)",
+          darker: "var(--color-primary-darker)",
         },
       },
       boxShadow: {

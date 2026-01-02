@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import RolePreview from "../components/RolePreview/RolePreview.astro";
 import RolePreviewLayout from "../components/RolePreview/RolePreviewLayout.astro";
+import Card from "../components/Card.astro";
 import { getRoles } from "../domains/Roles";
 
 const roles = await getRoles();
@@ -9,19 +10,21 @@ const roles = await getRoles();
 
 <Layout>
   <main>
-    <section class="px-4 md:px-8">
-      <header class="pt-8 text-center">
+    <section class="px-0 md:px-4">
+      <header class="pt-8 text-center text-primary mb-8">
         <h1 class="text-5xl font-bold">Professional Experiences</h1>
         <p class="mt-4 text-2xl font-extralight">
           A complete look at the roles I've held over the years. Each stop has
           helped me grow into the engineer I am today.
         </p>
       </header>
-      <RolePreviewLayout remainingCount={0}>
-        {roles.map((role) => (
-          <RolePreview role={role} />
-        ))}
-      </RolePreviewLayout>
+      <Card>
+        <RolePreviewLayout remainingCount={0}>
+          {roles.map((role) => (
+            <RolePreview role={role} />
+          ))}
+        </RolePreviewLayout>
+      </Card>
     </section>
   </main>
 </Layout>
