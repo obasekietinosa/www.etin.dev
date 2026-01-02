@@ -61,7 +61,7 @@ const remainingRoleCount = Math.max(roles.length - displayedRoles.length, 0);
             {projects.map((project) => <ProjectPreview project={project} />)}
           </div>
           <div class="text-center">
-            <Button variant="secondary">See 12 more projects</Button>
+            <Button variant="secondary" href="/projects">See all projects</Button>
           </div>
         </div>
       </Card>
@@ -78,7 +78,7 @@ const remainingRoleCount = Math.max(roles.length - displayedRoles.length, 0);
           {notes.map((note) => <NotePreview note={note} />)}
         </NotePreviewList>
         <div class="text-center">
-          <Button variant="secondary" href="#/writing"> See all writing </Button>
+          <Button variant="secondary" href="/notes"> See all writing </Button>
         </div>
       </Card>
     </section>
