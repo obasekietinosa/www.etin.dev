@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+import NotePreviewList from "../components/NotePreview/NotePreviewList.astro";
+import NotePreview from "../components/NotePreview/NotePreview.astro";
+import { getNotes } from "../domains/Notes";
+
+const notes = await getNotes();
+---
+
+<Layout title="Writing">
+  <main>
+    <section class="px-0 md:px-4">
+      <header class="pt-8 text-center text-primary mb-8">
+        <h1 class="text-5xl font-bold">Writing</h1>
+        <p class="mt-4 text-2xl font-extralight">
+          I like to write. This section of my website contains writing from different spheres of my life.
+        </p>
+        <hr class="border-primary border-2 mt-12 mb-8" />
+      </header>
+      <Card>
+        <NotePreviewList class="my-12 space-y-12">
+          {notes.map((note) => <NotePreview note={note} />)}
+        </NotePreviewList>
+      </Card>
+    </section>
+  </main>
+</Layout>
