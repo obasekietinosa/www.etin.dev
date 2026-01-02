@@ -5,3 +5,45 @@
   font-family: "Nunito", sans-serif;
   font-optical-sizing: auto;
 }
+
+:root {
+  /* Raw Palette */
+  --c-navy: #373F51;
+  --c-navy-dark: #232834; /* Darker navy for shadows */
+  --c-navy-darker: #151820;
+
+  --c-beige: #FFF6EA;
+  --c-beige-dark: #BBB2A7;
+  --c-beige-darker: #7A7672;
+
+  /* Default Theme (Light Mode - Inverted from original) */
+  /* Page Bg: Beige, Text: Navy */
+  /* Cards: Navy, Text: Beige */
+
+  /* Mapping semantic names to the palette */
+  /* In Light Mode, 'secondary' acts as the light background */
+  /* In Light Mode, 'primary' acts as the dark foreground/accent */
+
+  /* Wait, let's stick to the definitions:
+     primary: The 'pop' color (Buttons, Cards).
+     secondary: The 'background' color.
+  */
+
+  /* Light Mode Configuration (Beige Page) */
+  --color-secondary: var(--c-beige);       /* Page Background */
+  --color-primary: var(--c-navy);          /* Card Background / Text Emphasis */
+
+  /* Shadows for the Primary color (Navy) */
+  --color-primary-dark: var(--c-navy-dark);
+  --color-primary-darker: var(--c-navy-darker);
+}
+
+/* Dark Mode Configuration (Navy Page - Original Design) */
+:root.dark {
+  --color-secondary: var(--c-navy);        /* Page Background */
+  --color-primary: var(--c-beige);         /* Card Background / Text Emphasis */
+
+  /* Shadows for the Primary color (Beige) */
+  --color-primary-dark: var(--c-beige-dark);
+  --color-primary-darker: var(--c-beige-darker);
+}
