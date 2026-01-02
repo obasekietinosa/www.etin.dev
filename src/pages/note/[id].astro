@@ -1,0 +1,42 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getNotes } from "../../domains/Notes";
+import Badge from "../../components/Badge.astro";
+import Button from "../../components/Button.astro";
+
+export async function getStaticPaths() {
+  const notes = await getNotes();
+  return notes.map((note) => ({
+    params: { id: note.id.toString() },
+    props: { note },
+  }));
+}
+
+const { note } = Astro.props;
+const ogImage = `/og/note/${note.id}.png`;
+---
+
+<Layout title={note.title} description={note.preview} image={ogImage}>
+  <main class="max-w-3xl mx-auto mt-12">
+    <Button variant="secondary" size="sm" as="a" href="/#writing" class="mb-8 inline-block">
+        &larr; Back to writing
+    </Button>
+
+    <article class="bg-primary/5 p-8 rounded-lg shadow-bulge border-2 border-primary">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">{note.title}</h1>
+
+      <div class="flex flex-wrap gap-4 mb-8">
+        {note.tags.map((tag) => <Badge key={tag.name} {...tag} />)}
+      </div>
+
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        {/* Since note.body is raw text/markdown, we might need to render it properly.
+            For now, assuming it's text or HTML.
+            If it's markdown, we'd need a markdown renderer.
+            Notes.ts says 'body: string'.
+            Given the simple setup, I'll just render it. */}
+        <p class="whitespace-pre-line">{note.body}</p>
+      </div>
+    </article>
+  </main>
+</Layout>
