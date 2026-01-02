@@ -2,48 +2,45 @@
 @config '../tailwind.config.js';
 
 * {
-  font-family: "Nunito", sans-serif;
+  font-family: "Space Mono", monospace;
   font-optical-sizing: auto;
 }
 
-:root {
-  /* Raw Palette */
-  --c-navy: #373F51;
-  --c-navy-dark: #232834; /* Darker navy for shadows */
-  --c-navy-darker: #151820;
-
-  --c-beige: #FFF6EA;
-  --c-beige-dark: #BBB2A7;
-  --c-beige-darker: #7A7672;
-
-  /* Default Theme (Light Mode - Inverted from original) */
-  /* Page Bg: Beige, Text: Navy */
-  /* Cards: Navy, Text: Beige */
-
-  /* Mapping semantic names to the palette */
-  /* In Light Mode, 'secondary' acts as the light background */
-  /* In Light Mode, 'primary' acts as the dark foreground/accent */
-
-  /* Wait, let's stick to the definitions:
-     primary: The 'pop' color (Buttons, Cards).
-     secondary: The 'background' color.
-  */
-
-  /* Light Mode Configuration (Beige Page) */
-  --color-secondary: var(--c-beige);       /* Page Background */
-  --color-primary: var(--c-navy);          /* Card Background / Text Emphasis */
-
-  /* Shadows for the Primary color (Navy) */
-  --color-primary-dark: var(--c-navy-dark);
-  --color-primary-darker: var(--c-navy-darker);
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Pixelify Sans", sans-serif;
 }
 
-/* Dark Mode Configuration (Navy Page - Original Design) */
-:root.dark {
-  --color-secondary: var(--c-navy);        /* Page Background */
-  --color-primary: var(--c-beige);         /* Card Background / Text Emphasis */
+:root {
+  /* Video Game Palette - Light Mode (Retro Console) */
+  --c-console-grey-light: #e0e0e0;
+  --c-console-grey-dark: #212529;
+  --c-console-shadow: #000000;
 
-  /* Shadows for the Primary color (Beige) */
-  --color-primary-dark: var(--c-beige-dark);
-  --color-primary-darker: var(--c-beige-darker);
+  /* Video Game Palette - Dark Mode (Arcade/Cyber) */
+  --c-arcade-bg: #1a1a2e;
+  --c-arcade-neon: #e94560; /* Pinkish Red */
+  --c-arcade-shadow: #16213e; /* Dark Blue */
+
+  /* Light Mode Configuration */
+  --color-secondary: var(--c-console-grey-light);  /* Page Background */
+  --color-primary: var(--c-console-grey-dark);     /* Text / Card Background */
+  --color-primary-dark: var(--c-console-shadow);   /* Shadows */
+  --color-primary-darker: var(--c-console-shadow); /* Deeper Shadows (Same as dark for retro flat look) */
+
+  /* We need a text color on top of Primary (which is dark in Light mode? No wait) */
+  /* In the original design:
+     Light: Bg=Beige, Card=Navy(Primary), Text=Navy(Primary)?
+     Wait, looking at Layout.astro: <body class="bg-secondary text-primary">
+     So:
+     Light: Bg = Beige. Text = Navy.
+     Card: Bg = Navy?
+  */
+}
+
+:root.dark {
+  /* Dark Mode Configuration */
+  --color-secondary: var(--c-arcade-bg);    /* Page Background (Dark Blue) */
+  --color-primary: var(--c-arcade-neon);    /* Text / Card Background (Neon Pink) */
+  --color-primary-dark: var(--c-arcade-shadow); /* Shadows */
+  --color-primary-darker: var(--c-arcade-shadow); /* Deeper Shadows */
 }
