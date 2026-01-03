@@ -7,7 +7,7 @@ import { resolve } from "path";
 export const GET = async () => {
   // Read the font file from node_modules
   const fontFile = await readFile(
-    resolve(process.cwd(), "node_modules/@fontsource/nunito/files/nunito-latin-700-normal.woff")
+    resolve(process.cwd(), "node_modules/@fontsource/pixelify-sans/files/pixelify-sans-latin-700-normal.woff")
   );
 
   const markup = html`
@@ -28,14 +28,14 @@ export const GET = async () => {
             justify-content: center;
             width: 128px;
             height: 128px;
-            background-color: #373F51; /* Navy */
-            color: #FFF6EA; /* Beige */
-            border-radius: 30%; /* Squircle */
-            font-family: 'Nunito';
+            background-color: #2D2D2D; /* Retro Console Grey */
+            color: #E0E0E0; /* Light Text */
+            border-radius: 16px; /* Rounded Corners */
+            font-family: 'Pixelify Sans';
             font-size: 80px;
             font-weight: bold;
-            border: 6px solid #FFF6EA;
-            box-shadow: 6px 6px 0px #BBB2A7;
+            border: 4px solid #E0E0E0;
+            box-shadow: 8px 8px 0px #000000; /* Chunky Shadow */
         "
       >
         E
@@ -48,7 +48,7 @@ export const GET = async () => {
     height: 150,
     fonts: [
       {
-        name: "Nunito",
+        name: "Pixelify Sans",
         data: fontFile,
         weight: 700,
         style: "normal",

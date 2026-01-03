@@ -21,7 +21,13 @@ export default {
       content: {
         counter: "counter(section) '.'",
       },
+      fontFamily: {
+        pixelify: ['"Pixelify Sans"', "sans-serif"],
+        mono: ['"Space Mono"', "monospace"],
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 };

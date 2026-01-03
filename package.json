@@ -11,6 +11,8 @@
   "dependencies": {
     "@astrojs/check": "^0.9.6",
     "@fontsource/nunito": "^5.2.7",
+    "@fontsource/pixelify-sans": "^5.2.7",
+    "@fontsource/space-mono": "^5.2.9",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.1.7",
     "astro": "^5.8.0",
@@ -20,5 +22,8 @@
     "satori-html": "^0.3.2",
     "tailwindcss": "^4.1.7",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19"
   }
 }
