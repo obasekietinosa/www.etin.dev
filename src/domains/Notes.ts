@@ -5,6 +5,7 @@ export type Note = {
   id: number;
   publishedAt: string;
   title: string;
+  slug: string;
   preview: string;
   body: string;
   isFeatured: boolean;
