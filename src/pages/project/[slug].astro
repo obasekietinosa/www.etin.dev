@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Card from "../../components/Card.astro";
+import Badge from "../../components/Badge.astro";
+import Button from "../../components/Button.astro";
+import { getProjects } from "../../domains/Projects";
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<Layout title={project.title}>
+  <main>
+    <section class="px-0 md:px-4">
+      <header class="pt-8 mb-8">
+        <Button variant="secondary" as="a" href="/projects" class="mb-8 block w-fit">
+          ← Back to projects
+        </Button>
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+            <img
+                class="w-full md:w-1/2 shadow-bulge rounded-md border-2 border-secondary"
+                src={project.image}
+                alt={`Image for ${project.title}`}
+            />
+            <div>
+                <h1 class="text-5xl font-bold text-primary mb-4">{project.title}</h1>
+                <Badge class="mb-4" {...project.status} />
+                <div class="flex flex-wrap gap-2">
+                    {project.technologies.map((tech) => (
+                        <span class="bg-secondary text-primary px-2 py-1 rounded text-sm font-mono">
+                            {tech}
+                        </span>
+                    ))}
+                </div>
+            </div>
+        </div>
+      </header>
+      <Card>
+        <div class="prose prose-lg dark:prose-invert max-w-none font-mono">
+           <p class="whitespace-pre-line">{project.description}</p>
+        </div>
+      </Card>
+    </section>
+  </main>
+</Layout>

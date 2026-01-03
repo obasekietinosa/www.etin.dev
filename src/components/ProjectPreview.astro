@@ -28,7 +28,7 @@ const { project } = Astro.props;
     <h3 class="font-semibold text-2xl">{project.title}</h3>
     <Badge class="my-3" {...project.status} />
     <p class="text-xl mb-6">{project.description}</p>
-    <Button variant="secondary" size="sm" as="a" href={`#/projects/${project.slug}`}>
+    <Button variant="secondary" size="sm" as="a" href={`/project/${project.slug}`}>
       More detail
     </Button>
   </div>

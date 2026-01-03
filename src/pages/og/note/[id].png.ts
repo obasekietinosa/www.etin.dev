@@ -21,11 +21,11 @@ export const GET: APIRoute<{ note: Note }> = async ({ props }) => {
   // Read the font file from node_modules
   // We use process.cwd() to ensure we're looking from the project root
   const fontFile = await readFile(
-    resolve(process.cwd(), "node_modules/@fontsource/nunito/files/nunito-latin-700-normal.woff")
+    resolve(process.cwd(), "node_modules/@fontsource/pixelify-sans/files/pixelify-sans-latin-700-normal.woff")
   );
 
   const fontRegular = await readFile(
-    resolve(process.cwd(), "node_modules/@fontsource/nunito/files/nunito-latin-400-normal.woff")
+    resolve(process.cwd(), "node_modules/@fontsource/space-mono/files/space-mono-latin-400-normal.woff")
   );
 
   const markup = html`
@@ -36,10 +36,10 @@ export const GET: APIRoute<{ note: Note }> = async ({ props }) => {
         justify-content: space-between;
         height: 100%;
         width: 100%;
-        background-color: #373F51;
-        color: #FFF6EA;
+        background-color: #2D2D2D;
+        color: #E0E0E0;
         padding: 40px;
-        font-family: 'Nunito';
+        font-family: 'Pixelify Sans';
       "
     >
       <div style="display: flex; flex-direction: column;">
@@ -48,7 +48,7 @@ export const GET: APIRoute<{ note: Note }> = async ({ props }) => {
             font-size: 60px;
             font-weight: bold;
             margin-bottom: 20px;
-            text-shadow: 4px 4px 0px #BBB2A7;
+            text-shadow: 4px 4px 0px #000000;
             "
         >
             ${note.title}
@@ -56,13 +56,14 @@ export const GET: APIRoute<{ note: Note }> = async ({ props }) => {
         <div style="display: flex; gap: 10px; margin-top: 10px;">
              ${note.tags.map((tag) => `
                 <div style="
-                    background-color: #FFF6EA;
-                    color: #373F51;
+                    background-color: #E0E0E0;
+                    color: #2D2D2D;
                     padding: 8px 16px;
-                    border-radius: 9999px;
+                    border-radius: 8px;
                     font-size: 24px;
                     font-weight: bold;
-                    box-shadow: 0px 4px 0px #BBB2A7;
+                    box-shadow: 4px 4px 0px #000000;
+                    font-family: 'Space Mono';
                 ">${tag.name}</div>
              `).join('')}
         </div>
@@ -73,19 +74,20 @@ export const GET: APIRoute<{ note: Note }> = async ({ props }) => {
              <div style="
                 width: 60px;
                 height: 60px;
-                background-color: #FFF6EA;
-                border-radius: 50%;
+                background-color: #E0E0E0;
+                border-radius: 8px;
                 margin-right: 20px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 font-size: 30px;
                 font-weight: bold;
-                color: #373F51;
+                color: #2D2D2D;
+                box-shadow: 4px 4px 0px #000000;
              ">E</div>
             <div style="font-size: 30px; font-weight: bold;">Etin Obaseki</div>
         </div>
-        <div style="font-size: 24px; opacity: 0.8;">etin.dev</div>
+        <div style="font-size: 24px; opacity: 0.8; font-family: 'Space Mono';">etin.dev</div>
       </div>
     </div>
   `;
@@ -95,13 +97,13 @@ export const GET: APIRoute<{ note: Note }> = async ({ props }) => {
     height: 630,
     fonts: [
       {
-        name: "Nunito",
+        name: "Pixelify Sans",
         data: fontFile,
         weight: 700,
         style: "normal",
       },
       {
-        name: "Nunito",
+        name: "Space Mono",
         data: fontRegular,
         weight: 400,
         style: "normal",
