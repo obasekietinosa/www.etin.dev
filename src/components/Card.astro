@@ -3,15 +3,21 @@ import clsx from "clsx";
 
 interface Props {
   class?: string;
+  bordered?: boolean; // New prop to control border
   [prop: string]: any;
 }
 
-const { class: className, ...props } = Astro.props;
+const { class: className, bordered = true, ...props } = Astro.props;
+
+// "Minimal card usage... When a card is necessary (pricing, testimonials)... Border: 1px solid border... No radius... No shadow... Transition on hover: border-hover color"
 ---
 
 <div
   class={clsx(
-    "rounded-lg bg-primary text-secondary shadow-bulge shadow-primary-dark p-6 border-2 border-primary-dark",
+    "relative bg-transparent p-6 md:p-8 transition-colors duration-150",
+    {
+      "border border-border hover:border-accent/50": bordered,
+    },
     className
   )}
   {...props}

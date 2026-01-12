@@ -1,7 +1,6 @@
 ---
 import type { Note } from "../../domains/Notes";
 import Badge from "../Badge.astro";
-import Button from "../Button.astro";
 import cx from "clsx";
 
 interface Props {
@@ -11,17 +10,21 @@ interface Props {
 const { note } = Astro.props;
 ---
 
-<li
-  class={cx(
-    "[counter-increment:section] pl-6",
-    "marker:content-counter marker:text-secondary",
-    "marker:font-bold marker:text-4xl"
-  )}
->
-  <h3 class="font-semibold text-3xl mb-6">{note.title}</h3>
-  <div class="flex gap-6">
-    {note.tags.map((tag) => <Badge key={tag.name} {...tag} />)}
-  </div>
-  <p class="text-xl mb-6">{note.preview}</p>
-  <Button variant="secondary" size="sm" as="a" href={`/note/${note.slug}`}> Read now </Button>
+<li class="group block py-8 border-t border-border first:border-t-0">
+  <a href={`/note/${note.slug}`} class="block">
+    <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-4 mb-2">
+      <h3 class="text-2xl md:text-3xl font-bold font-sans tracking-tight group-hover:text-accent transition-colors">
+        {note.title}
+      </h3>
+      <div class="flex flex-wrap gap-2 shrink-0">
+        {note.tags.map((tag) => <Badge key={tag.name} {...tag} />)}
+      </div>
+    </div>
+    <p class="text-lg text-muted-foreground leading-relaxed max-w-3xl">
+      {note.preview}
+    </p>
+    <div class="mt-4 text-sm font-mono text-accent uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 duration-300">
+      Read Article &rarr;
+    </div>
+  </a>
 </li>

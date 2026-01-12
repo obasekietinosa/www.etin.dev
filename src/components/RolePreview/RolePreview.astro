@@ -1,35 +1,60 @@
 ---
 import { formatRoleDate, type Role } from "../../domains/Roles";
+import Button from "../Button.astro";
 
 interface Props {
   role: Role;
 }
 
 const { role } = Astro.props;
+
+// Redesign:
+// "Timeline" style might be replaced by a clean list or grid.
+// Let's stick to a clean, vertical layout with minimal timeline.
+// No weird retro borders.
 ---
 
-<div class="first:pt-6 last:pb-12 pl-9">
-  <div class="flex relative items-center gap-4">
-    <div class="absolute -left-9 w-5 h-5 border-2 border-secondary bg-primary"></div>
-    <a href={`/role/${role.slug}`} class="font-bold text-2xl hover:underline">
-      {role.title}
-      {
-        role.subtitle && (
-          <>
-            , <span class="font-extralight">{role.subtitle}</span>
-          </>
-        )
-      }
-    </a>
+<div class="relative pl-8 md:pl-0 md:grid md:grid-cols-[1fr_3fr] gap-4 md:gap-8 group">
+  <!-- Timeline dot/line for mobile, invisible on desktop or repurposed -->
+  <div class="absolute left-0 top-0 h-full w-px bg-border md:hidden"></div>
+  <div class="absolute left-[-4px] top-2 h-2 w-2 rounded-full bg-accent md:hidden"></div>
+
+  <!-- Left Col: Dates & Company (Desktop) -->
+  <div class="hidden md:block text-right pt-2">
+    <div class="text-sm font-mono text-muted-foreground uppercase tracking-wider mb-1">
+      {formatRoleDate(role.startDate)} — {role.endDate ? formatRoleDate(role.endDate) : "Present"}
+    </div>
+    <div class="flex items-center justify-end gap-2 font-bold text-lg">
+       {role.company}
+    </div>
   </div>
-  <div class="text-xl font-extralight">
-    <div class="my-3 flex items-center gap-2">
-      <img class="h-6" src={role.companyIcon} alt="" />
-      <div>
-        {role.company} | {formatRoleDate(role.startDate)} —{" "}
-        {role.endDate ? formatRoleDate(role.endDate) : "Present"}
+
+  <!-- Right Col: Content -->
+  <div class="pb-12 border-b border-border last:border-0">
+    <!-- Mobile Date/Company -->
+    <div class="md:hidden mb-2">
+       <div class="flex items-center gap-2 font-bold text-lg">
+          {role.company}
+       </div>
+       <div class="text-xs font-mono text-muted-foreground uppercase tracking-wider">
+        {formatRoleDate(role.startDate)} — {role.endDate ? formatRoleDate(role.endDate) : "Present"}
       </div>
     </div>
-    <p>{role.description}</p>
+
+    <h3 class="text-2xl font-bold font-sans tracking-tight mb-2 group-hover:text-accent transition-colors">
+      <a href={`/role/${role.slug}`} class="focus:outline-none">
+        <span class="absolute inset-0 md:hidden"></span>
+        {role.title}
+      </a>
+    </h3>
+    {role.subtitle && <p class="text-lg text-muted-foreground mb-4">{role.subtitle}</p>}
+    <p class="text-base leading-relaxed text-muted-foreground mb-6 line-clamp-3">
+      {role.description}
+    </p>
+    <div class="hidden md:block">
+      <Button variant="ghost" size="sm" href={`/role/${role.slug}`} class="pl-0">
+        Read more <span class="sr-only">about {role.title}</span>
+      </Button>
+    </div>
   </div>
 </div>

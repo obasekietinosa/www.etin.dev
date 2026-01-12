@@ -1,6 +1,22 @@
 ---
 import "../styles/global.css";
+// Remove ThemeToggle if we are forcing a look or refactoring it.
+// For now, I'll keep it but it might need to be restyled or removed if we are strictly dark mode.
+// The spec says "Light/Dark theme system... persisted via localStorage" in memory,
+// BUT the new spec mainly details Dark Mode.
+// I will keep the toggle functionality but ensure the default is Dark.
 import ThemeToggle from "../components/ThemeToggle.astro";
+
+// Import new fonts
+import "@fontsource/inter-tight/400.css";
+import "@fontsource/inter-tight/600.css";
+import "@fontsource/inter-tight/700.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/playfair-display/400.css";
+import "@fontsource/playfair-display/400-italic.css";
 
 interface Props {
   title?: string;
@@ -17,18 +33,11 @@ const {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width" />
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-      rel="stylesheet"
-    />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Canonical URL -->
@@ -54,20 +63,24 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
     <script is:inline>
-      // Initialize theme based on user preference or system setting
+      // Initialize theme - Default to Dark if not set
       const theme = localStorage.getItem("theme");
-      if (
-        theme === "dark" ||
-        (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-      } else {
+      // If theme is specifically 'light', use light. Otherwise (null or 'dark'), use dark.
+      if (theme === "light") {
         document.documentElement.classList.remove("dark");
+      } else {
+        document.documentElement.classList.add("dark");
       }
     </script>
   </head>
-  <body class="bg-secondary text-primary py-8 px-4 md:px-8 lg:px-12 transition-colors duration-300">
-    <ThemeToggle />
-    <slot />
+  <body class="bg-background text-foreground antialiased relative min-h-screen selection:bg-accent selection:text-accent-foreground transition-colors duration-200">
+    <div class="bg-noise"></div>
+    <!-- Main Container per spec: max-w-5xl, padding scaling -->
+    <div class="relative z-10 mx-auto max-w-5xl px-6 md:px-12 lg:px-16 py-20 md:py-28 lg:py-40">
+      <nav class="flex justify-end mb-20 md:mb-32">
+         <ThemeToggle />
+      </nav>
+      <slot />
+    </div>
   </body>
 </html>

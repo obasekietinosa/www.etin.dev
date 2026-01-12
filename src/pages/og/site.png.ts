@@ -6,14 +6,12 @@ import { readFile } from "fs/promises";
 import { resolve } from "path";
 
 export const GET = async () => {
-  // Read the font file from node_modules
-  // We use process.cwd() to ensure we're looking from the project root
-  const fontFile = await readFile(
-    resolve(process.cwd(), "node_modules/@fontsource/nunito/files/nunito-latin-700-normal.woff")
+  const fontBold = await readFile(
+    resolve(process.cwd(), "node_modules/@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff")
   );
 
   const fontRegular = await readFile(
-    resolve(process.cwd(), "node_modules/@fontsource/nunito/files/nunito-latin-400-normal.woff")
+    resolve(process.cwd(), "node_modules/@fontsource/inter/files/inter-latin-400-normal.woff")
   );
 
   const markup = html`
@@ -25,37 +23,34 @@ export const GET = async () => {
         align-items: center;
         height: 100%;
         width: 100%;
-        background-color: #373F51;
-        color: #FFF6EA;
+        background-color: #0A0A0A;
+        color: #FAFAFA;
         padding: 40px;
-        font-family: 'Nunito';
+        font-family: 'Inter Tight';
       "
     >
-        <div style="display: flex; flex-direction: column; align-items: center; border: 4px solid #FFF6EA; padding: 60px; border-radius: 20px; box-shadow: 10px 10px 0px #BBB2A7;">
+        <div style="display: flex; flex-direction: column; align-items: center; padding: 60px;">
             <div
                 style="
-                font-size: 80px;
+                font-size: 120px;
                 font-weight: bold;
+                letter-spacing: -0.06em;
+                line-height: 1;
                 margin-bottom: 20px;
-                text-shadow: 6px 6px 0px #BBB2A7;
+                display: flex;
                 "
             >
                 Etin Obaseki
             </div>
-            <div style="font-size: 40px; font-weight: normal; margin-top: 10px;">
-                Software Engineer
-            </div>
             <div style="
-                margin-top: 40px;
-                background-color: #FFF6EA;
-                color: #373F51;
-                padding: 10px 30px;
-                border-radius: 9999px;
-                font-size: 30px;
-                font-weight: bold;
-                box-shadow: 0px 6px 0px #BBB2A7;
-            ">
-                etin.dev
+                width: 100%;
+                height: 8px;
+                background-color: #FF3D00;
+                margin-bottom: 40px;
+                display: flex;
+            "></div>
+            <div style="font-size: 40px; font-weight: normal; font-family: 'Inter'; color: #737373; text-transform: uppercase; letter-spacing: 0.1em; display: flex;">
+                Software Engineer
             </div>
         </div>
     </div>
@@ -66,13 +61,13 @@ export const GET = async () => {
     height: 630,
     fonts: [
       {
-        name: "Nunito",
-        data: fontFile,
+        name: "Inter Tight",
+        data: fontBold,
         weight: 700,
         style: "normal",
       },
        {
-        name: "Nunito",
+        name: "Inter",
         data: fontRegular,
         weight: 400,
         style: "normal",
