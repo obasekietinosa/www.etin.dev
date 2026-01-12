@@ -79,10 +79,27 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <div class="bg-noise"></div>
     <!-- Main Container per spec: max-w-5xl, padding scaling -->
     <div class="relative z-10 mx-auto max-w-5xl px-6 md:px-12 lg:px-16 py-20 md:py-28 lg:py-40">
-      <nav class="flex justify-end mb-20 md:mb-32">
+      <nav class="flex justify-between items-center mb-20 md:mb-32">
+         <a href="/" class="text-xl font-bold tracking-tight hover:text-accent transition-colors">Etin Obaseki</a>
          <ThemeToggle />
       </nav>
       <slot />
+      <footer class="mt-32 pt-16 border-t border-border">
+        <div class="grid md:grid-cols-2 gap-12">
+           <div>
+             <h3 class="text-2xl font-bold mb-4">Etin Obaseki</h3>
+             <p class="text-muted-foreground">Software Engineer based in the cloud.</p>
+           </div>
+           <div class="flex justify-start md:justify-end gap-8">
+              <a href="https://github.com/obasekietinosa" class="text-muted-foreground hover:text-accent transition-colors font-mono uppercase text-sm tracking-wider">Github</a>
+              <a href="https://threads.com/e.t.i.n" class="text-muted-foreground hover:text-accent transition-colors font-mono uppercase text-sm tracking-wider">Threads</a>
+              <a href="mailto:me@etin.dev" class="text-muted-foreground hover:text-accent transition-colors font-mono uppercase text-sm tracking-wider">Email</a>
+           </div>
+        </div>
+        <div class="mt-16 text-xs text-muted-foreground font-mono">
+          &copy; {new Date().getFullYear()} Etin Obaseki. Designed with Bold.
+        </div>
+      </footer>
     </div>
   </body>
 </html>
