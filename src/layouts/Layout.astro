@@ -68,7 +68,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       // If theme is specifically 'light', use light. Otherwise (null or 'dark'), use dark.
       if (theme === "light") {
         document.documentElement.classList.remove("dark");
+        document.documentElement.classList.add("light");
       } else {
+        document.documentElement.classList.remove("light");
         document.documentElement.classList.add("dark");
       }
     </script>
