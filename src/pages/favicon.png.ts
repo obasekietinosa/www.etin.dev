@@ -5,9 +5,9 @@ import { readFile } from "fs/promises";
 import { resolve } from "path";
 
 export const GET = async () => {
-  // Read the font file from node_modules
+  // Read the font file from node_modules (Inter Tight Bold for new look)
   const fontFile = await readFile(
-    resolve(process.cwd(), "node_modules/@fontsource/pixelify-sans/files/pixelify-sans-latin-700-normal.woff")
+    resolve(process.cwd(), "node_modules/@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff")
   );
 
   const markup = html`
@@ -28,27 +28,27 @@ export const GET = async () => {
             justify-content: center;
             width: 128px;
             height: 128px;
-            background-color: #2D2D2D; /* Retro Console Grey */
-            color: #E0E0E0; /* Light Text */
-            border-radius: 16px; /* Rounded Corners */
-            font-family: 'Pixelify Sans';
+            background-color: #0A0A0A; /* Dark Background */
+            color: #FAFAFA; /* Light Text */
+            font-family: 'Inter Tight';
             font-size: 80px;
-            font-weight: bold;
-            border: 4px solid #E0E0E0;
-            box-shadow: 8px 8px 0px #000000; /* Chunky Shadow */
+            font-weight: 700;
+            border: 0px;
+            position: relative;
         "
       >
-        E
+        <span>E</span>
+        <div style="position: absolute; bottom: 20px; width: 60%; height: 8px; background-color: #FF3D00; display: flex;"></div>
       </div>
     </div>
   `;
 
   const svg = await satori(markup, {
-    width: 150, // Slightly larger canvas to account for shadow
-    height: 150,
+    width: 128,
+    height: 128,
     fonts: [
       {
-        name: "Pixelify Sans",
+        name: "Inter Tight",
         data: fontFile,
         weight: 700,
         style: "normal",
@@ -57,7 +57,7 @@ export const GET = async () => {
   });
 
   const resvg = new Resvg(svg, {
-    fitTo: { mode: "width", value: 150 },
+    fitTo: { mode: "width", value: 128 },
   });
   const pngData = resvg.render();
   const pngBuffer = pngData.asPng();

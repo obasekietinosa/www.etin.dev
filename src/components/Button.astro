@@ -1,27 +1,59 @@
 ---
 import clsx from "clsx";
 
-export interface ButtonProps {
+export interface Props {
   as?: string;
-  size?: "lg" | "sm";
+  size?: "lg" | "sm" | "default";
   href?: string;
   class?: string;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "ghost";
+  target?: string; // Add target prop support
+  rel?: string;    // Add rel prop support
   [prop: string]: any;
 }
 
-const { class: className, size = "lg", href, variant = "primary", ...props } = Astro.props;
+const {
+  class: className,
+  size = "default",
+  href,
+  variant = "primary",
+  ...props
+} = Astro.props;
+
+// Base classes common to all buttons
+const baseClasses = "inline-flex items-center justify-center font-semibold uppercase tracking-wider transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap";
+
+const variants = {
+  primary: "group relative text-accent hover:text-accent p-0 bg-transparent gap-2 active:translate-y-px",
+  secondary: "border border-foreground text-foreground bg-transparent hover:bg-foreground hover:text-background rounded-none active:translate-y-px",
+  ghost: "text-muted-foreground hover:text-foreground bg-transparent active:translate-y-px border-0",
+};
+
+const sizes = {
+  sm: {
+    primary: "text-xs py-2",
+    secondary: "text-xs px-4 py-2",
+    ghost: "text-xs px-3 py-2"
+  },
+  default: {
+    primary: "text-sm py-3",
+    secondary: "text-sm px-6 py-3",
+    ghost: "text-sm px-4 py-3"
+  },
+  lg: {
+    primary: "text-base py-4",
+    secondary: "text-base px-8 py-4",
+    ghost: "text-base px-6 py-4"
+  }
+};
+
+const selectedSize = sizes[size] || sizes.default;
+const sizeClasses = selectedSize[variant] || selectedSize.primary;
 
 const classes = clsx(
-  "inline-block rounded-lg",
-  "font-bold",
-  "shadow-bulge active:shadow-none mb-1 active:mt-1 active:mb-0 transition-all",
-  {
-    "bg-primary text-secondary shadow-primary-dark": variant === "primary",
-    "bg-secondary text-primary shadow-primary-darker": variant === "secondary",
-    "py-3 px-6 text-lg md:text-xl": size === "lg",
-    "py-1 px-6 text-md md:text-lg": size === "sm",
-  },
+  baseClasses,
+  variants[variant],
+  sizeClasses,
   className
 );
 ---
@@ -31,10 +63,22 @@ const classes = clsx(
     href ? (
       <a href={href} class={classes} {...props}>
         <slot />
+        {variant === 'primary' && (
+          <span class="absolute bottom-0 left-0 h-0.5 w-full bg-accent origin-left scale-x-100 transition-transform duration-150 group-hover:scale-x-110" />
+        )}
+        {variant === 'ghost' && (
+           <span class="absolute bottom-1 left-4 right-4 h-px bg-foreground origin-left scale-x-0 transition-transform duration-150 group-hover:scale-x-100" />
+        )}
       </a>
     ) : (
       <button class={classes} {...props}>
         <slot />
+        {variant === 'primary' && (
+          <span class="absolute bottom-0 left-0 h-0.5 w-full bg-accent origin-left scale-x-100 transition-transform duration-150 group-hover:scale-x-110" />
+        )}
+        {variant === 'ghost' && (
+           <span class="absolute bottom-1 left-4 right-4 h-px bg-foreground origin-left scale-x-0 transition-transform duration-150 group-hover:scale-x-100" />
+        )}
       </button>
     )
   }

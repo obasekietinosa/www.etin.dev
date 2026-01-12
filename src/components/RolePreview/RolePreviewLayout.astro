@@ -7,15 +7,13 @@ const showMoreButton = moreRolesCount > 0;
 const experienceLabel = `experience${moreRolesCount === 1 ? "" : "s"}`;
 ---
 
-<div class="pl-4 md:pl-8">
-  <div class="relative my-12">
-    <div class="absolute bg-secondary w-1 left-2.25 h-full"></div>
-    <div class="space-y-12"><slot /></div>
-  </div>
+<div class="space-y-0">
+  <slot />
+
   {showMoreButton && (
-    <div class="md:pl-9">
-      <Button variant="secondary" href="/experiences">
-        See {moreRolesCount} more {experienceLabel}
+    <div class="mt-8 md:ml-[25%] pt-8">
+      <Button variant="secondary" href="/experiences" class="w-full md:w-auto">
+        View {moreRolesCount} more {experienceLabel}
       </Button>
     </div>
   )}
