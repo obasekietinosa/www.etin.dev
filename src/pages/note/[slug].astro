@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import { getNotes } from "../../domains/Notes";
 import Badge from "../../components/Badge.astro";
 import Button from "../../components/Button.astro";
+import { marked } from "marked";
 
 export async function getStaticPaths() {
   const notes = await getNotes();
@@ -14,6 +15,7 @@ export async function getStaticPaths() {
 
 const { note } = Astro.props;
 const ogImage = `/og/note/${note.id}.png`;
+const content = await marked.parse(note.body);
 ---
 
 <Layout title={note.title} description={note.preview} image={ogImage}>
@@ -29,14 +31,7 @@ const ogImage = `/og/note/${note.id}.png`;
         {note.tags.map((tag) => <Badge key={tag.name} {...tag} />)}
       </div>
 
-      <div class="prose prose-lg dark:prose-invert max-w-none">
-        {/* Since note.body is raw text/markdown, we might need to render it properly.
-            For now, assuming it's text or HTML.
-            If it's markdown, we'd need a markdown renderer.
-            Notes.ts says 'body: string'.
-            Given the simple setup, I'll just render it. */}
-        <p class="whitespace-pre-line">{note.body}</p>
-      </div>
+      <div class="prose prose-lg dark:prose-invert max-w-none" set:html={content} />
     </article>
   </main>
 </Layout>
