@@ -1,0 +1,26 @@
+
+> www.etin.dev@0.0.1 dev
+> astro dev
+
+▶ Astro collects anonymous usage data.
+  This information helps us improve Astro.
+  Run "astro telemetry disable" to opt-out.
+  https://astro.build/telemetry
+
+10:28:07 [types] Generated 1ms
+10:28:07 [content] Syncing content
+10:28:07 [content] Synced content
+
+ astro  v5.8.0 ready in 665 ms
+
+┃ Local    http://localhost:4321/
+┃ Network  use --host to expose
+
+10:28:07 watching for file changes...
+
+ update  ▶ New version of Astro available: 5.17.1
+  Run npx @astrojs/upgrade to update
+
+10:29:25 [200] /project/vba-tie-we-the-edo-name-directory 399ms
+10:29:48 [watch] src/pages/project/[slug].astro
+10:29:48 [watch] src/pages/project/[slug].astro

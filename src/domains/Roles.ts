@@ -1,4 +1,5 @@
 import { API_ENDPOINTS, fetchFromApi, logApiError } from "../utils/api";
+import type { Note } from "./Notes";
 
 export type Role = {
   roleId: number;
@@ -11,6 +12,7 @@ export type Role = {
   slug: string;
   description: string;
   skills: string[];
+  notes: Note[];
 };
 
 export const formatRoleDate = (isoDateString: string) => {

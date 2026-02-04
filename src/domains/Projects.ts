@@ -1,5 +1,6 @@
 import { API_ENDPOINTS, fetchFromApi, logApiError } from "../utils/api";
 import type { Tag } from "./Tags";
+import type { Note } from "./Notes";
 
 export type Project = {
   id: number;
@@ -11,6 +12,7 @@ export type Project = {
   status: Tag;
   description: string;
   technologies: string[];
+  notes: Note[];
 };
 
 type ProjectsResponse = { projects?: Project[] };
