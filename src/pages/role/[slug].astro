@@ -2,6 +2,8 @@
 import Layout from "../../layouts/Layout.astro";
 import Card from "../../components/Card.astro";
 import Button from "../../components/Button.astro";
+import NotePreviewList from "../../components/NotePreview/NotePreviewList.astro";
+import NotePreview from "../../components/NotePreview/NotePreview.astro";
 import { getRoles, formatRoleDate } from "../../domains/Roles";
 
 export async function getStaticPaths() {
@@ -52,6 +54,20 @@ const { role } = Astro.props;
             </div>
         </div>
       </Card>
+      {
+        role.notes && role.notes.length > 0 && (
+          <div class="mt-12">
+            <h2 class="text-3xl font-bold text-primary mb-6">Related Notes</h2>
+            <Card>
+              <NotePreviewList class="space-y-12">
+                {role.notes.map((note) => (
+                  <NotePreview note={note} />
+                ))}
+              </NotePreviewList>
+            </Card>
+          </div>
+        )
+      }
     </section>
   </main>
 </Layout>

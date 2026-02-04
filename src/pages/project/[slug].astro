@@ -3,6 +3,8 @@ import Layout from "../../layouts/Layout.astro";
 import Card from "../../components/Card.astro";
 import Badge from "../../components/Badge.astro";
 import Button from "../../components/Button.astro";
+import NotePreviewList from "../../components/NotePreview/NotePreviewList.astro";
+import NotePreview from "../../components/NotePreview/NotePreview.astro";
 import { getProjects } from "../../domains/Projects";
 
 export async function getStaticPaths() {
@@ -47,6 +49,22 @@ const { project } = Astro.props;
            <p class="whitespace-pre-line">{project.description}</p>
         </div>
       </Card>
+      {
+        project.notes && project.notes.length > 0 && (
+          <div class="mt-12">
+            <h2 class="text-3xl font-bold text-primary mb-6">
+              Related Notes
+            </h2>
+            <Card>
+              <NotePreviewList class="space-y-12">
+                {project.notes.map((note) => (
+                  <NotePreview note={note} />
+                ))}
+              </NotePreviewList>
+            </Card>
+          </div>
+        )
+      }
     </section>
   </main>
 </Layout>
