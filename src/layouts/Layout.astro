@@ -6,6 +6,7 @@ import "../styles/global.css";
 // BUT the new spec mainly details Dark Mode.
 // I will keep the toggle functionality but ensure the default is Dark.
 import ThemeToggle from "../components/ThemeToggle.astro";
+import CookieBanner from "../components/CookieBanner.astro";
 
 // Import new fonts
 import "@fontsource/inter-tight/400.css";
@@ -62,6 +63,27 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
+    <!-- Matomo -->
+    <script is:inline>
+      var _paq = (window._paq = window._paq || []);
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(["requireCookieConsent"]);
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+      (function () {
+        var u = "//analytics.etin.dev/";
+        _paq.push(["setTrackerUrl", u + "matomo.php"]);
+        _paq.push(["setSiteId", "1"]);
+        var d = document,
+          g = d.createElement("script"),
+          s = d.getElementsByTagName("script")[0];
+        g.async = true;
+        g.src = u + "matomo.js";
+        s.parentNode.insertBefore(g, s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
+
     <script is:inline>
       // Initialize theme - Default to Dark if not set
       const theme = localStorage.getItem("theme");
@@ -88,7 +110,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <div class="grid md:grid-cols-2 gap-12">
            <div>
              <h3 class="text-2xl font-bold mb-4">Etin Obaseki</h3>
-             <p class="text-muted-foreground">Software Engineer based in the cloud.</p>
+             <p class="text-muted-foreground">Engineer; capable of great abstraction.</p>
            </div>
            <div class="flex justify-start md:justify-end gap-8">
               <a href="https://github.com/obasekietinosa" class="text-muted-foreground hover:text-accent transition-colors font-mono uppercase text-sm tracking-wider">Github</a>
@@ -101,5 +123,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         </div>
       </footer>
     </div>
+    <CookieBanner />
   </body>
 </html>

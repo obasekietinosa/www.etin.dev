@@ -1,0 +1,50 @@
+---
+import Button from "./Button.astro";
+---
+
+<div
+  id="cookie-banner"
+  class="fixed bottom-0 left-0 right-0 bg-background border-t border-border p-6 z-50 hidden"
+>
+  <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <p class="text-sm md:text-base text-muted-foreground">
+      I use cookies to analyze traffic and improve the experience.
+    </p>
+    <div class="flex gap-4">
+      <Button id="cookie-decline" variant="ghost" size="sm">
+        Decline
+      </Button>
+      <Button id="cookie-accept" variant="secondary" size="sm">
+        Accept
+      </Button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  const banner = document.getElementById("cookie-banner");
+  const acceptBtn = document.getElementById("cookie-accept");
+  const declineBtn = document.getElementById("cookie-decline");
+
+  const consent = localStorage.getItem("cookie-consent");
+
+  if (!consent && banner) {
+    banner.classList.remove("hidden");
+  }
+
+  acceptBtn?.addEventListener("click", () => {
+    if (window._paq) {
+      window._paq.push(["rememberCookieConsentGiven"]);
+    }
+    localStorage.setItem("cookie-consent", "accepted");
+    banner?.classList.add("hidden");
+  });
+
+  declineBtn?.addEventListener("click", () => {
+    if (window._paq) {
+      window._paq.push(["forgetCookieConsentGiven"]);
+    }
+    localStorage.setItem("cookie-consent", "declined");
+    banner?.classList.add("hidden");
+  });
+</script>
