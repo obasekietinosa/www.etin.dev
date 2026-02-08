@@ -16,26 +16,27 @@ The foundation of the entire system is the API. Ensuring it is robust, tested, a
 - **Key Tasks**:
     - Implement unit and integration tests for all handlers.
     - Create database seeders to simplify local development.
-    - Set up CI/CD for automated testing and deployment.
-    - Add structured logging and monitoring.
+    - Add pagination support for all list endpoints.
+    - Refactor OpenAPI generation to use a standard library (`swag`).
 
 ### Phase 2: Admin Completion (Content Management)
 Once the API is stable, the focus shifts to the Admin portal to enable easy content creation and management without manual database edits.
 - **Goal**: A fully functional, user-friendly dashboard for managing all site content.
 - **Key Tasks**:
     - Build out the dashboard home with key metrics.
+    - Implement pagination for content lists.
     - Enhance the Markdown editor with image uploads and previews.
-    - Improve error handling and user feedback (toasts).
     - Polish the UI/UX with better navigation and loading states.
 
 ### Phase 3: Website Polish (Public Launch)
 With content manageable via the Admin panel and served by a stable API, the final phase focuses on the public-facing website's experience.
 - **Goal**: A high-performance, SEO-optimized personal website.
 - **Key Tasks**:
-    - Implement search functionality and SEO enhancements.
-    - Add sitemap and RSS feeds.
+    - Implement search and filtering (by tags/categories) for notes.
+    - Create dedicated tag listing pages.
+    - Add related content suggestions to detail pages.
+    - Implement sitemap and RSS feeds.
     - Handle edge cases with custom error pages (404/500).
-    - Optimize performance and accessibility for launch.
 
 ---
 

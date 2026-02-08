@@ -33,23 +33,30 @@ To ensure robustness, scalability, and ease of maintenance, the following areas 
 - **Action Items**:
     - Create a CLI command or script to populate the database with initial data (e.g., default admin user, sample projects/notes) to facilitate local development.
 
-### 3. Rate Limiting
+### 3. Data Model Enhancements
+- **Current Status**: Tags and categories exist but are underutilized.
+- **Action Items**:
+    - **Better Tagging**: Improve the use of tags and categories across content types.
+    - **Related Content**: Implement logic to find related notes based on shared tags or item associations (e.g., notes linked to a specific project).
+    - **Pagination**: Update list endpoints (Companies, Roles, Notes) to support pagination parameters (`page`, `limit`) instead of returning all records.
+
+### 4. Swagger/OpenAPI Refactor
+- **Current Status**: Hand-rolled OpenAPI implementation.
+- **Action Items**:
+    - Replace the custom OpenAPI generation with a standard library or tool (e.g., `swag` or `oapi-codegen`) to ensure compliance and easier maintenance.
+
+### 5. Rate Limiting
 - **Current Status**: Not implemented.
 - **Action Items**:
     - Implement middleware to limit request rates per IP or token to prevent abuse, especially on public endpoints.
 
-### 4. Caching Strategy
-- **Current Status**: No caching mechanism observed; all requests hit the database.
-- **Action Items**:
-    - Introduce caching (e.g., Redis or in-memory) for frequently accessed public data like Notes and Projects to reduce database load and improve response times.
-
-### 5. Structured Logging & Monitoring
+### 6. Structured Logging & Monitoring
 - **Current Status**: Basic `log.Printf` logging.
 - **Action Items**:
     - Migrate to a structured logging library (e.g., `slog` or `zap`) for better observability.
     - Integrate with a monitoring solution (e.g., Prometheus, Sentry) to track errors and performance metrics in production.
 
-### 6. CI/CD Pipeline
+### 7. CI/CD Pipeline
 - **Current Status**: GitHub Actions mentioned but specific deployment workflows need definition.
 - **Action Items**:
     - Define GitHub Actions workflows for running tests on pull requests.

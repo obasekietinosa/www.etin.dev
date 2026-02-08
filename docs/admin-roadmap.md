@@ -26,6 +26,7 @@ To provide a seamless content management experience, the following enhancements 
 ### 2. User Interface & Experience
 - **Current Status**: Functional but basic.
 - **Action Items**:
+    - **Pagination**: Implement pagination in list views (Notes, Projects, etc.) to manage growing content libraries.
     - Improve navigation with active states and breadcrumbs for better orientation.
     - Implement a consistent loading state (skeletons or spinners) across all data-fetching components.
     - Add toast notifications for success/error feedback on form submissions.
