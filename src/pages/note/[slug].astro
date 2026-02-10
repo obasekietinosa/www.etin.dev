@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import { getNotes } from "../../domains/Notes";
 import Badge from "../../components/Badge.astro";
 import Button from "../../components/Button.astro";
-import { marked } from "marked";
+import MarkdownContent from "../../components/MarkdownContent.astro";
 
 export async function getStaticPaths() {
   const notes = await getNotes();
@@ -15,7 +15,6 @@ export async function getStaticPaths() {
 
 const { note } = Astro.props;
 const ogImage = `/og/note/${note.id}.png`;
-const content = await marked.parse(note.body);
 ---
 
 <Layout title={note.title} description={note.preview} image={ogImage}>
@@ -31,7 +30,7 @@ const content = await marked.parse(note.body);
         {note.tags.map((tag) => <Badge key={tag.name} {...tag} />)}
       </div>
 
-      <div class="prose prose-lg dark:prose-invert max-w-none" set:html={content} />
+      <MarkdownContent class="prose prose-lg dark:prose-invert max-w-none" content={note.body} />
     </article>
   </main>
 </Layout>
