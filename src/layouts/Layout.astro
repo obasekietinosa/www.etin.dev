@@ -7,6 +7,7 @@ import "../styles/global.css";
 // I will keep the toggle functionality but ensure the default is Dark.
 import ThemeToggle from "../components/ThemeToggle.astro";
 import CookieBanner from "../components/CookieBanner.astro";
+import ImageModal from "../components/ImageModal.astro";
 
 // Import new fonts
 import "@fontsource/inter-tight/400.css";
@@ -124,5 +125,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       </footer>
     </div>
     <CookieBanner />
+    <ImageModal />
   </body>
 </html>

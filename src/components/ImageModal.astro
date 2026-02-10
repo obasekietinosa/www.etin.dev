@@ -1,0 +1,233 @@
+---
+---
+
+<div
+  id="image-modal"
+  class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-sm transition-opacity duration-300 opacity-0"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Image Preview"
+>
+  <button
+    id="image-modal-close"
+    class="absolute top-4 right-4 z-[101] p-2 text-white/70 hover:text-white transition-colors rounded-full hover:bg-white/10"
+    aria-label="Close Preview"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
+      <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+    </svg>
+  </button>
+
+  <div
+    id="image-modal-content"
+    class="w-full h-full flex overflow-auto p-4 md:p-12 cursor-zoom-in justify-center items-center"
+  >
+    <!-- Content injected here via JS -->
+  </div>
+</div>
+
+<script>
+  function setupImageModal() {
+    const modal = document.getElementById('image-modal');
+    const closeBtn = document.getElementById('image-modal-close');
+    const content = document.getElementById('image-modal-content');
+
+    if (!modal || !closeBtn || !content) return;
+
+    let isZoomed = false;
+
+    // Helper to close modal
+    const closeModal = () => {
+      modal.classList.remove('opacity-100');
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        content.innerHTML = '';
+        isZoomed = false;
+        content.classList.remove('cursor-zoom-out');
+        content.classList.add('cursor-zoom-in');
+        content.classList.add('justify-center', 'items-center');
+        content.classList.remove('items-start', 'justify-start');
+        document.body.style.overflow = '';
+      }, 300);
+    };
+
+    // Helper to open modal
+    const openModal = (element) => {
+      // Prevent body scroll
+      document.body.style.overflow = 'hidden';
+
+      modal.classList.remove('hidden');
+      // Trigger reflow
+      void modal.offsetWidth;
+      modal.classList.remove('opacity-0');
+      modal.classList.add('opacity-100');
+
+      content.innerHTML = '';
+
+      // If it's a Mermaid diagram, add the class to the container to ensure styles match
+      if (element.closest && element.closest('.mermaid')) {
+        content.classList.add('mermaid');
+      } else {
+        content.classList.remove('mermaid');
+      }
+
+      if (element.tagName.toLowerCase() === 'img') {
+        const img = document.createElement('img');
+        img.src = element.src;
+        img.alt = element.alt;
+        img.className = 'max-w-full max-h-full object-contain transition-transform duration-300 shrink-0 rounded-md';
+        content.appendChild(img);
+      } else {
+        // Assume SVG
+        let svg = element.tagName.toLowerCase() === 'svg' ? element : element.querySelector('svg');
+        if (svg) {
+            const clone = svg.cloneNode(true);
+            // For mermaid diagrams, styles are often bound to the SVG ID.
+            // We must preserve it for styles to work, even if it means duplicate IDs temporarily.
+            if (!element.closest || !element.closest('.mermaid')) {
+              clone.removeAttribute('id');
+            }
+            clone.removeAttribute('width');
+            clone.removeAttribute('height');
+            clone.removeAttribute('style');
+
+            // Add styling for better visibility
+            clone.classList.add(
+                'max-w-full',
+                'max-h-full',
+                'transition-all',
+                'duration-300',
+                'shrink-0',
+                'bg-white',
+                'dark:bg-zinc-900', // Adaptive background
+                'p-4',
+                'rounded-lg',
+                'border',
+                'border-black/10',
+                'dark:border-white/10'
+            );
+            content.appendChild(clone);
+        }
+      }
+    };
+
+    // Attach openModal to modal element for global access
+    modal.openModal = openModal;
+
+    // Toggle Zoom
+    const toggleZoom = (e) => {
+      if (e.target === content) {
+        closeModal();
+        return;
+      }
+
+      const child = content.firstElementChild;
+      if (!child) return;
+
+      isZoomed = !isZoomed;
+
+      if (isZoomed) {
+        content.classList.remove('cursor-zoom-in');
+        content.classList.add('cursor-zoom-out');
+
+        // Remove centering when zoomed to allow scrolling to top-left
+        content.classList.remove('justify-center', 'items-center');
+        content.classList.add('items-start', 'justify-start');
+
+        child.classList.remove('max-w-full', 'max-h-full');
+        child.classList.add('max-w-none', 'max-h-none');
+
+        if (child.tagName.toLowerCase() === 'svg') {
+           // Use viewBox width if available to determine a good zoom width
+           const vb = child.getAttribute('viewBox');
+           let targetWidth = window.innerWidth * 1.5; // Default to 150% of screen
+
+           if (vb) {
+               const parts = vb.split(/[\s,]+/);
+               if (parts.length === 4) {
+                   const vbWidth = parseFloat(parts[2]);
+                   // Use the larger of natural size or 1.5x screen
+                   targetWidth = Math.max(vbWidth, window.innerWidth * 1.5);
+               }
+           }
+
+           child.style.width = targetWidth + 'px';
+           child.style.minWidth = '100%';
+           child.style.height = 'auto';
+        } else {
+            // For images, let them go to natural size
+             child.style.width = 'auto';
+             child.style.height = 'auto';
+             // If natural size is smaller than screen, force it larger?
+             // Usually for images we just want natural size.
+             // But if user wants to zoom a small image?
+             // For now standard zoom (natural size) is expected for images.
+        }
+      } else {
+        content.classList.remove('cursor-zoom-out');
+        content.classList.add('cursor-zoom-in');
+
+        // Restore centering
+        content.classList.add('justify-center', 'items-center');
+        content.classList.remove('items-start', 'justify-start');
+
+        child.classList.add('max-w-full', 'max-h-full');
+        child.classList.remove('max-w-none', 'max-h-none');
+
+        if (child.tagName.toLowerCase() === 'svg') {
+            child.style.width = '';
+            child.style.height = '';
+            child.style.minWidth = '';
+        } else {
+            child.style.width = '';
+            child.style.height = '';
+        }
+      }
+    };
+
+    closeBtn.onclick = (e) => {
+        e.stopPropagation();
+        closeModal();
+    };
+
+    content.onclick = toggleZoom;
+  }
+
+  // Global Listeners (Run Once)
+  if (!window._imageModalGlobalListeners) {
+      window._imageModalGlobalListeners = true;
+
+      document.addEventListener('keydown', (e) => {
+            const m = document.getElementById('image-modal');
+            if (e.key === 'Escape' && m && !m.classList.contains('hidden')) {
+                const btn = document.getElementById('image-modal-close');
+                if (btn) btn.click();
+            }
+      });
+
+      document.addEventListener('click', (e) => {
+             const target = e.target;
+             const isProseImage = target.closest('.prose img');
+             const isMermaid = target.closest('.mermaid');
+
+             if (isProseImage || isMermaid) {
+                 const m = document.getElementById('image-modal');
+                 if (m && m.openModal) {
+                     e.preventDefault();
+                     if (isProseImage) m.openModal(isProseImage);
+                     else if (isMermaid) {
+                         const svg = isMermaid.querySelector('svg');
+                         if (svg) m.openModal(svg);
+                     }
+                 }
+             }
+      });
+  }
+
+  // Run setup
+  setupImageModal();
+
+  // Re-run on View Transitions
+  document.addEventListener('astro:page-load', setupImageModal);
+</script>

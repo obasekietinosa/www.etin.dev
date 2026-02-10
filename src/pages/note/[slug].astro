@@ -66,9 +66,13 @@ const content = await marked.parse(sanitizedBody, { renderer });
 <script>
   import mermaid from 'mermaid';
 
+  function getTheme() {
+    return document.documentElement.classList.contains('light') ? 'default' : 'dark';
+  }
+
   mermaid.initialize({
     startOnLoad: false,
-    theme: 'dark',
+    theme: getTheme(),
     fontFamily: '"Inter", sans-serif',
     securityLevel: 'loose',
   });
