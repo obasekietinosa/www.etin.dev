@@ -20,7 +20,7 @@
 
   <div
     id="image-modal-content"
-    class="w-full h-full flex items-center justify-center overflow-auto p-4 md:p-12 cursor-zoom-in"
+    class="w-full h-full flex overflow-auto p-4 md:p-12 cursor-zoom-in"
   >
     <!-- Content injected here via JS -->
   </div>
@@ -67,7 +67,7 @@
         const img = document.createElement('img');
         img.src = element.src;
         img.alt = element.alt;
-        img.className = 'max-w-full max-h-full object-contain transition-transform duration-300';
+        img.className = 'max-w-full max-h-full object-contain transition-transform duration-300 m-auto shrink-0';
         content.appendChild(img);
       } else {
         // Assume SVG
@@ -78,7 +78,7 @@
             clone.removeAttribute('width');
             clone.removeAttribute('height');
             clone.removeAttribute('style');
-            clone.classList.add('max-w-full', 'max-h-full', 'transition-transform', 'duration-300');
+            clone.classList.add('max-w-full', 'max-h-full', 'transition-transform', 'duration-300', 'm-auto', 'shrink-0');
             content.appendChild(clone);
         }
       }
@@ -104,15 +104,32 @@
         content.classList.add('cursor-zoom-out');
         child.classList.remove('max-w-full', 'max-h-full');
         child.classList.add('max-w-none', 'max-h-none');
+
         if (child.tagName.toLowerCase() === 'svg') {
-           child.style.width = '150%';
-           child.style.height = 'auto';
+           // Use viewBox width if available to determine a good zoom width
+           const vb = child.getAttribute('viewBox');
+           if (vb) {
+               const parts = vb.split(/[\s,]+/);
+               if (parts.length === 4) {
+                   const vbWidth = parseFloat(parts[2]);
+                   child.style.width = vbWidth + 'px';
+                   child.style.minWidth = '100%';
+                   child.style.height = 'auto';
+               } else {
+                   child.style.width = '150%';
+                   child.style.height = 'auto';
+               }
+           } else {
+               child.style.width = '150%';
+               child.style.height = 'auto';
+           }
         }
       } else {
         content.classList.remove('cursor-zoom-out');
         content.classList.add('cursor-zoom-in');
         child.classList.add('max-w-full', 'max-h-full');
         child.classList.remove('max-w-none', 'max-h-none');
+
         if (child.tagName.toLowerCase() === 'svg') {
             child.style.width = '';
             child.style.height = '';
