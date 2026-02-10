@@ -1,0 +1,66 @@
+---
+import { marked } from 'marked';
+
+interface Props {
+  content: string;
+  class?: string;
+  [key: string]: any;
+}
+
+const { content, class: className, ...rest } = Astro.props;
+
+const renderer = new marked.Renderer();
+
+// Capture original code renderer
+// We bind it to ensure correct context if needed
+const originalCodeRenderer = renderer.code.bind(renderer);
+
+renderer.code = (token) => {
+  // Check if lang is mermaid
+  if (token.lang === 'mermaid') {
+    // Escape HTML special characters to prevent them from being interpreted as tags
+    const escapedCode = token.text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+    return `<div class="mermaid">${escapedCode}</div>`;
+  }
+
+  // Fallback to default
+  return originalCodeRenderer(token);
+};
+
+const htmlContent = await marked.parse(content, { renderer });
+---
+
+<div class={className} {...rest} set:html={htmlContent} />
+
+<script>
+  import mermaid from 'mermaid';
+
+  // Initialize mermaid
+  // We use startOnLoad: false to manually control initialization
+  mermaid.initialize({ startOnLoad: false });
+
+  const initMermaid = () => {
+    mermaid.run({
+      querySelector: '.mermaid'
+    });
+  };
+
+  // Run on initial load
+  // If the script is deferred (default in Astro), DOMContentLoaded might have already fired.
+  // But usually Astro scripts run when DOM is ready or close to it.
+  // Checking readyState is safe.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMermaid);
+  } else {
+    initMermaid();
+  }
+
+  // Run on view transitions navigation
+  document.addEventListener('astro:page-load', initMermaid);
+</script>
