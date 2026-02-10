@@ -65,6 +65,13 @@
 
       content.innerHTML = '';
 
+      // If it's a Mermaid diagram, add the class to the container to ensure styles match
+      if (element.closest && element.closest('.mermaid')) {
+        content.classList.add('mermaid');
+      } else {
+        content.classList.remove('mermaid');
+      }
+
       if (element.tagName.toLowerCase() === 'img') {
         const img = document.createElement('img');
         img.src = element.src;
@@ -76,7 +83,11 @@
         let svg = element.tagName.toLowerCase() === 'svg' ? element : element.querySelector('svg');
         if (svg) {
             const clone = svg.cloneNode(true);
-            clone.removeAttribute('id');
+            // For mermaid diagrams, styles are often bound to the SVG ID.
+            // We must preserve it for styles to work, even if it means duplicate IDs temporarily.
+            if (!element.closest || !element.closest('.mermaid')) {
+              clone.removeAttribute('id');
+            }
             clone.removeAttribute('width');
             clone.removeAttribute('height');
             clone.removeAttribute('style');
@@ -88,11 +99,13 @@
                 'transition-all',
                 'duration-300',
                 'shrink-0',
-                'bg-zinc-900', // Card-like background
+                'bg-white',
+                'dark:bg-zinc-900', // Adaptive background
                 'p-4',
                 'rounded-lg',
                 'border',
-                'border-white/10'
+                'border-black/10',
+                'dark:border-white/10'
             );
             content.appendChild(clone);
         }
