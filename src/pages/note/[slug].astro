@@ -40,7 +40,9 @@ renderer.code = function({ text, lang, escaped }) {
   return marked.Renderer.prototype.code.call(this, { text, lang, escaped });
 };
 
-const content = await marked.parse(note.body, { renderer });
+// Fix API returning escaped backticks
+const sanitizedBody = note.body.replace(/\\`/g, '`');
+const content = await marked.parse(sanitizedBody, { renderer });
 ---
 
 <Layout title={note.title} description={note.preview} image={ogImage}>
