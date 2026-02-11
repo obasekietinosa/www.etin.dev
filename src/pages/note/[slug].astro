@@ -3,17 +3,40 @@ import Layout from "../../layouts/Layout.astro";
 import { getNotes } from "../../domains/Notes";
 import Badge from "../../components/Badge.astro";
 import Button from "../../components/Button.astro";
+import NotePreview from "../../components/NotePreview/NotePreview.astro";
 import { marked } from "marked";
 
 export async function getStaticPaths() {
   const notes = await getNotes();
-  return notes.map((note) => ({
-    params: { slug: note.slug },
-    props: { note },
-  }));
+  return notes.map((note) => {
+    const relatedNotes = notes
+      .filter((n) => n.id !== note.id)
+      .map((n) => ({
+        ...n,
+        commonTags: n.tags.filter((t) =>
+          note.tags.some((nt) => nt.name === t.name)
+        ).length,
+      }))
+      .filter((n) => n.commonTags > 0)
+      .sort((a, b) => {
+        if (b.commonTags !== a.commonTags) {
+          return b.commonTags - a.commonTags;
+        }
+        return (
+          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+        );
+      })
+      .slice(0, 3)
+      .map(({ commonTags, ...n }) => n);
+
+    return {
+      params: { slug: note.slug },
+      props: { note, relatedNotes },
+    };
+  });
 }
 
-const { note } = Astro.props;
+const { note, relatedNotes } = Astro.props;
 const ogImage = `/og/note/${note.id}.png`;
 
 const renderer = new marked.Renderer();
@@ -60,6 +83,17 @@ const content = await marked.parse(sanitizedBody, { renderer });
 
       <div class="prose prose-lg dark:prose-invert max-w-none" set:html={content} />
     </article>
+
+    {relatedNotes && relatedNotes.length > 0 && (
+      <section class="mt-16">
+        <h2 class="text-3xl font-bold mb-8 text-primary">Related Notes</h2>
+        <ul class="list-none">
+          {relatedNotes.map((relatedNote) => (
+            <NotePreview note={relatedNote} />
+          ))}
+        </ul>
+      </section>
+    )}
   </main>
 </Layout>
 
