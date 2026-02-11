@@ -1,19 +1,37 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getNotes } from "../../domains/Notes";
+import { getNotes, getNote } from "../../domains/Notes";
 import Badge from "../../components/Badge.astro";
 import Button from "../../components/Button.astro";
+import NotePreview from "../../components/NotePreview/NotePreview.astro";
 import { marked } from "marked";
 
 export async function getStaticPaths() {
   const notes = await getNotes();
   return notes.map((note) => ({
     params: { slug: note.slug },
-    props: { note },
   }));
 }
 
-const { note } = Astro.props;
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/404');
+}
+
+let note;
+try {
+  note = await getNote(slug);
+} catch (error) {
+  console.error(`Error fetching note for slug ${slug}:`, error);
+  return Astro.redirect('/404');
+}
+
+if (!note) {
+  return Astro.redirect('/404');
+}
+
+const { relatedNotes, relatedItems } = note;
 const ogImage = `/og/note/${note.id}.png`;
 
 const renderer = new marked.Renderer();
@@ -60,6 +78,34 @@ const content = await marked.parse(sanitizedBody, { renderer });
 
       <div class="prose prose-lg dark:prose-invert max-w-none" set:html={content} />
     </article>
+
+    {relatedItems && relatedItems.length > 0 && (
+      <section class="mt-16">
+        <h2 class="text-3xl font-bold mb-8 text-primary">Related Items</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {relatedItems.map((item) => (
+            <a href={`/${item.type.toLowerCase()}/${item.slug}`} class="block p-6 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-primary transition-all group no-underline">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-mono text-primary uppercase tracking-widest">{item.type}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-500 group-hover:text-primary transition-colors transform group-hover:translate-x-1"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+              </div>
+              <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">{item.title}</h3>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {relatedNotes && relatedNotes.length > 0 && (
+      <section class="mt-16">
+        <h2 class="text-3xl font-bold mb-8 text-primary">Related Notes</h2>
+        <ul class="list-none">
+          {relatedNotes.map((relatedNote) => (
+            <NotePreview note={relatedNote} />
+          ))}
+        </ul>
+      </section>
+    )}
   </main>
 </Layout>
 
