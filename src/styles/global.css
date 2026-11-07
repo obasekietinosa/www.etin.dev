@@ -3,37 +3,41 @@
 
 @layer base {
   :root {
-    /* Bold Typography Palette - Dark Mode Only (per spec) */
-    --color-background: #0A0A0A;
-    --color-foreground: #FAFAFA;
-    --color-muted: #1A1A1A;
-    --color-muted-foreground: #737373;
-    --color-accent: #FF3D00;
-    --color-accent-foreground: #0A0A0A;
-    --color-border: #262626;
-    --color-input: #1A1A1A;
-    --color-card: #0F0F0F;
-    --color-card-foreground: #FAFAFA;
-    --color-ring: #FF3D00;
+    /* Igun Foundry Palette - Cast Bronze, Crucible Charcoal & Oxidized Verdigris */
+    --color-background: #0E0C0A;
+    --color-foreground: #F4EFE6;
+    --color-muted: #171310;
+    --color-muted-foreground: #A39686;
+    --color-accent: #C88A32;
+    --color-accent-foreground: #0E0C0A;
+    --color-patina: #3E6B5C;
+    --color-patina-surface: #162621;
+    --color-patina-foreground: #7CC4AC;
+    --color-border: #3A2C1D;
+    --color-border-subtle: #261D14;
+    --color-input: #171310;
+    --color-card: #14100D;
+    --color-card-foreground: #F4EFE6;
+    --color-ring: #C88A32;
   }
 
-  /*
-     If we absolutely need a light mode, we can invert,
-     but the design system philosophy strongly implies a dark aesthetic ("poster design", "vermillion on dark").
-     I will provide an inversion just in case, but default is dark.
-  */
+  /* Warm Archival Parchment & Court Bronze Light Mode */
   :root.light {
-    --color-background: #FAFAFA;
-    --color-foreground: #0A0A0A;
-    --color-muted: #F0F0F0;
-    --color-muted-foreground: #737373;
-    --color-accent: #FF3D00; /* Vermillion still works on white */
-    --color-accent-foreground: #FAFAFA;
-    --color-border: #E5E5E5;
-    --color-input: #F0F0F0;
-    --color-card: #FFFFFF;
-    --color-card-foreground: #0A0A0A;
-    --color-ring: #FF3D00;
+    --color-background: #F7F2E7;
+    --color-foreground: #17130F;
+    --color-muted: #EDE4D3;
+    --color-muted-foreground: #66594C;
+    --color-accent: #9E6518;
+    --color-accent-foreground: #F7F2E7;
+    --color-patina: #2B5446;
+    --color-patina-surface: #E1EDE8;
+    --color-patina-foreground: #1F4236;
+    --color-border: #D5C5AE;
+    --color-border-subtle: #E5D8C3;
+    --color-input: #EDE4D3;
+    --color-card: #EFE7D8;
+    --color-card-foreground: #17130F;
+    --color-ring: #9E6518;
   }
 
   * {
@@ -47,7 +51,7 @@
   }
 }
 
-/* Noise Texture Class */
+/* Chased Benin Bronze Quatrefoil (Ebenhikhin River-Leaf) + Crucible Grain Overlay */
 .bg-noise {
   position: fixed;
   top: 0;
@@ -56,8 +60,51 @@
   height: 100%;
   pointer-events: none;
   z-index: 50;
-  opacity: 0.015;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C88A32' stroke-width='0.75'%3E%3Ccircle cx='24' cy='24' r='2'/%3E%3Cpath d='M24 10 C27 17 27 19 24 22 C21 19 21 17 24 10 Z'/%3E%3Cpath d='M24 38 C27 31 27 29 24 26 C21 29 21 31 24 38 Z'/%3E%3Cpath d='M10 24 C17 27 19 27 22 24 C19 21 17 21 10 24 Z'/%3E%3Cpath d='M38 24 C31 27 29 27 26 24 C29 21 31 21 38 24 Z'/%3E%3Ccircle cx='6' cy='6' r='0.8'/%3E%3Ccircle cx='42' cy='6' r='0.8'/%3E%3Ccircle cx='6' cy='42' r='0.8'/%3E%3Ccircle cx='42' cy='42' r='0.8'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Double-stepped Benin bronze plaque border */
+.plaque-frame {
+  position: relative;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    inset 0 0 0 4px var(--color-background),
+    inset 0 0 0 5px var(--color-border-subtle);
+}
+
+/* Outer page foundry plaque border */
+.foundry-shell {
+  position: relative;
+  border: 1px solid var(--color-border);
+  box-shadow:
+    inset 0 0 0 4px var(--color-background),
+    inset 0 0 0 5px var(--color-border-subtle);
+}
+
+/* Braided Bronze Guilloche (Ighannigan Rope Weave) Divider */
+.divider-guilloche {
+  width: 100%;
+  height: 12px;
+  position: relative;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-muted);
+  background-image: url("data:image/svg+xml,%3Csvg width='28' height='10' viewBox='0 0 28 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 5 Q7 0.5 14 5 T28 5 M0 5 Q7 9.5 14 5 T28 5' fill='none' stroke='%23C88A32' stroke-opacity='0.55' stroke-width='1.1'/%3E%3Ccircle cx='7' cy='5' r='1' fill='%23C88A32' fill-opacity='0.45'/%3E%3Ccircle cx='21' cy='5' r='1' fill='%23C88A32' fill-opacity='0.45'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
+}
+
+/* Corner rivet dot utility */
+.plaque-rivet {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background-color: var(--color-accent);
+  opacity: 0.75;
+  pointer-events: none;
 }
 
 @layer utilities {
