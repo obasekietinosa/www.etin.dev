@@ -64,32 +64,39 @@ const content = await marked.parse(sanitizedBody, { renderer });
 ---
 
 <Layout title={note.title} description={note.preview} image={ogImage}>
-  <main class="max-w-3xl mx-auto mt-12">
-    <Button variant="secondary" size="sm" as="a" href="/notes" class="mb-8 inline-block">
-        &larr; Back to writing
+  <main class="max-w-3xl mx-auto">
+    <Button variant="secondary" size="sm" href="/notes" class="mb-8 inline-block">
+      &larr; Back to writing
     </Button>
 
-    <article class="bg-primary/5 p-8 rounded-lg shadow-bulge border-2 border-primary">
-      <h1 class="text-4xl md:text-5xl font-bold mb-6">{note.title}</h1>
+    <article class="plaque-frame rounded-md p-6 md:p-12">
+      <span class="plaque-rivet absolute top-2.5 left-2.5"></span>
+      <span class="plaque-rivet absolute top-2.5 right-2.5"></span>
+      <span class="plaque-rivet absolute bottom-2.5 left-2.5"></span>
+      <span class="plaque-rivet absolute bottom-2.5 right-2.5"></span>
 
-      <div class="flex flex-wrap gap-4 mb-8">
+      <h1 class="text-4xl md:text-5xl font-serif font-semibold tracking-tight mb-6">{note.title}</h1>
+
+      <div class="flex flex-wrap gap-2.5 mb-8">
         {note.tags.map((tag) => <Badge key={tag.name} {...tag} />)}
       </div>
 
-      <div class="prose prose-lg dark:prose-invert max-w-none" set:html={content} />
+      <div class="divider-guilloche mb-10"></div>
+
+      <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-a:text-accent" set:html={content} />
     </article>
 
     {relatedItems && relatedItems.length > 0 && (
       <section class="mt-16">
-        <h2 class="text-3xl font-bold mb-8 text-primary">Related Items</h2>
+        <h2 class="text-3xl font-serif font-semibold mb-6 text-foreground">Related Items</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           {relatedItems.map((item) => (
-            <a href={`/${item.type.toLowerCase()}/${item.slug}`} class="block p-6 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-primary transition-all group no-underline">
+            <a href={`/${item.type.toLowerCase()}/${item.slug}`} class="block p-6 rounded-md plaque-frame hover:border-accent transition-all group no-underline">
               <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-mono text-primary uppercase tracking-widest">{item.type}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-500 group-hover:text-primary transition-colors transform group-hover:translate-x-1"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                <span class="text-xs font-mono text-accent uppercase tracking-widest">{item.type}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-accent transition-colors transform group-hover:translate-x-1"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
               </div>
-              <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">{item.title}</h3>
+              <h3 class="text-xl font-serif font-semibold text-foreground group-hover:text-accent transition-colors">{item.title}</h3>
             </a>
           ))}
         </div>
@@ -98,12 +105,14 @@ const content = await marked.parse(sanitizedBody, { renderer });
 
     {relatedNotes && relatedNotes.length > 0 && (
       <section class="mt-16">
-        <h2 class="text-3xl font-bold mb-8 text-primary">Related Notes</h2>
-        <ul class="list-none">
-          {relatedNotes.map((relatedNote) => (
-            <NotePreview note={relatedNote} />
-          ))}
-        </ul>
+        <h2 class="text-3xl font-serif font-semibold mb-6 text-foreground">Related Notes</h2>
+        <div class="plaque-frame rounded-md p-6 md:p-8">
+          <ul class="list-none pl-0">
+            {relatedNotes.map((relatedNote) => (
+              <NotePreview note={relatedNote} />
+            ))}
+          </ul>
+        </div>
       </section>
     )}
   </main>

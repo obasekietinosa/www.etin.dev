@@ -17,49 +17,52 @@ export async function getStaticPaths() {
 const { role } = Astro.props;
 ---
 
-<Layout title={`${role.title} at ${role.company}`}>
+<Layout title={`${role.title} at ${role.company} — Etin Obaseki`}>
   <main>
-    <section class="px-0 md:px-4">
-      <header class="pt-8 mb-8">
-        <Button variant="secondary" as="a" href="/experiences" class="mb-8 block w-fit">
-          ← Back to experiences
+    <section>
+      <header class="mb-12">
+        <Button variant="secondary" size="sm" href="/experiences" class="mb-8 inline-block">
+          &larr; Back to experiences
         </Button>
-        <div class="flex items-center gap-6 mb-6">
-            <div class="w-20 h-20 bg-white p-2 rounded-full border-2 border-secondary flex items-center justify-center overflow-hidden">
-                <img class="w-full h-full object-contain" src={role.companyIcon} alt={`${role.company} logo`} />
+        <div class="flex flex-col sm:flex-row sm:items-center gap-6">
+          <div class="w-20 h-20 bg-white p-2.5 rounded-md border-2 border-accent flex items-center justify-center overflow-hidden shrink-0">
+            <img class="w-full h-full object-contain" src={role.companyIcon} alt={`${role.company} logo`} />
+          </div>
+          <div>
+            <div class="text-xs font-mono uppercase tracking-widest text-accent mb-1">
+              {role.company} // {formatRoleDate(role.startDate)} &mdash; {role.endDate ? formatRoleDate(role.endDate) : "Present"}
             </div>
-            <div>
-                <h1 class="text-4xl md:text-5xl font-bold text-primary">
-                    {role.title}
-                </h1>
-                {role.subtitle && <h2 class="text-2xl font-light text-primary">{role.subtitle}</h2>}
-                <div class="text-xl mt-2 font-mono">
-                    {role.company} | {formatRoleDate(role.startDate)} — {role.endDate ? formatRoleDate(role.endDate) : "Present"}
-                </div>
-            </div>
+            <h1 class="text-4xl md:text-5xl font-serif font-semibold tracking-tight text-foreground">
+              {role.title}
+            </h1>
+            {role.subtitle && <h2 class="text-xl italic font-serif text-muted-foreground mt-1">{role.subtitle}</h2>}
+          </div>
         </div>
+        <div class="divider-guilloche mt-10"></div>
       </header>
-      <Card>
-        <div class="prose prose-lg dark:prose-invert max-w-none font-mono">
-            <h3 class="font-pixelify">Description</h3>
-            <p class="whitespace-pre-line">{role.description}</p>
 
-            <h3 class="font-pixelify mt-8">Skills</h3>
-            <div class="flex flex-wrap gap-2 not-prose">
-                {role.skills.map((skill) => (
-                    <span class="bg-secondary text-primary px-3 py-1 rounded-full text-sm font-bold border border-secondary shadow-sm">
-                        {skill}
-                    </span>
-                ))}
-            </div>
+      <Card>
+        <div class="prose prose-lg dark:prose-invert max-w-none">
+          <h3 class="font-serif text-2xl text-accent mb-3">Description</h3>
+          <p class="whitespace-pre-line text-foreground/90 leading-relaxed">{role.description}</p>
+
+          <h3 class="font-serif text-2xl text-accent mt-10 mb-4">Skills</h3>
+          <div class="flex flex-wrap gap-2.5 not-prose">
+            {role.skills.map((skill) => (
+              <span class="bg-patina-surface text-patina-foreground px-3 py-1 rounded-sm text-xs font-mono uppercase tracking-wider border border-patina/60">
+                {skill}
+              </span>
+            ))}
+          </div>
         </div>
       </Card>
+
       {
         role.notes && role.notes.length > 0 && (
-          <div class="mt-12">
-            <h2 class="text-3xl font-bold text-primary mb-6">Related Notes</h2>
+          <div class="mt-16">
+            <h2 class="text-3xl font-serif font-semibold text-foreground mb-6">Related Notes</h2>
             <Card>
-              <NotePreviewList class="space-y-12">
+              <NotePreviewList class="space-y-0">
                 {role.notes.map((note) => (
                   <NotePreview note={note} />
                 ))}

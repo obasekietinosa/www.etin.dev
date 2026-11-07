@@ -5,9 +5,8 @@ import { readFile } from "fs/promises";
 import { resolve } from "path";
 
 export const GET = async () => {
-  // Read the font file from node_modules (Inter Tight Bold for new look)
   const fontFile = await readFile(
-    resolve(process.cwd(), "node_modules/@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff")
+    resolve(process.cwd(), "node_modules/@fontsource/playfair-display/files/playfair-display-latin-700-normal.woff")
   );
 
   const markup = html`
@@ -28,17 +27,17 @@ export const GET = async () => {
             justify-content: center;
             width: 128px;
             height: 128px;
-            background-color: #0A0A0A; /* Dark Background */
-            color: #FAFAFA; /* Light Text */
-            font-family: 'Inter Tight';
+            background-color: #0E0C0A;
+            color: #F4EFE6;
+            font-family: 'Playfair Display';
             font-size: 80px;
             font-weight: 700;
-            border: 0px;
+            border: 4px solid #3A2C1D;
             position: relative;
         "
       >
         <span>E</span>
-        <div style="position: absolute; bottom: 20px; width: 60%; height: 8px; background-color: #FF3D00; display: flex;"></div>
+        <div style="position: absolute; bottom: 18px; width: 56%; height: 6px; background-color: #C88A32; display: flex;"></div>
       </div>
     </div>
   `;
@@ -48,7 +47,7 @@ export const GET = async () => {
     height: 128,
     fonts: [
       {
-        name: "Inter Tight",
+        name: "Playfair Display",
         data: fontFile,
         weight: 700,
         style: "normal",

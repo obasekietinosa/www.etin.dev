@@ -1,15 +1,10 @@
 ---
 import "../styles/global.css";
-// Remove ThemeToggle if we are forcing a look or refactoring it.
-// For now, I'll keep it but it might need to be restyled or removed if we are strictly dark mode.
-// The spec says "Light/Dark theme system... persisted via localStorage" in memory,
-// BUT the new spec mainly details Dark Mode.
-// I will keep the toggle functionality but ensure the default is Dark.
 import ThemeToggle from "../components/ThemeToggle.astro";
 import CookieBanner from "../components/CookieBanner.astro";
 import ImageModal from "../components/ImageModal.astro";
 
-// Import new fonts
+// Import Igun Foundry typography stack
 import "@fontsource/inter-tight/400.css";
 import "@fontsource/inter-tight/600.css";
 import "@fontsource/inter-tight/700.css";
@@ -18,7 +13,14 @@ import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/playfair-display/400.css";
+import "@fontsource/playfair-display/600.css";
+import "@fontsource/playfair-display/700.css";
 import "@fontsource/playfair-display/400-italic.css";
+import "@fontsource/cormorant-garamond/400.css";
+import "@fontsource/cormorant-garamond/600.css";
+import "@fontsource/cormorant-garamond/700.css";
+import "@fontsource/cormorant-garamond/400-italic.css";
+import "@fontsource/cormorant-garamond/600-italic.css";
 
 interface Props {
   title?: string;
@@ -86,9 +88,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <!-- End Matomo Code -->
 
     <script is:inline>
-      // Initialize theme - Default to Dark if not set
+      // Initialize theme - Default to Dark (Crucible Charcoal) if not set
       const theme = localStorage.getItem("theme");
-      // If theme is specifically 'light', use light. Otherwise (null or 'dark'), use dark.
       if (theme === "light") {
         document.documentElement.classList.remove("dark");
         document.documentElement.classList.add("light");
@@ -98,31 +99,52 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
     </script>
   </head>
-  <body class="bg-background text-foreground antialiased relative min-h-screen selection:bg-accent selection:text-accent-foreground transition-colors duration-200">
+  <body class="bg-background text-foreground antialiased relative min-h-screen selection:bg-accent selection:text-accent-foreground transition-colors duration-200 py-4 md:py-10 px-3 md:px-8">
     <div class="bg-noise"></div>
-    <!-- Main Container per spec: max-w-5xl, padding scaling -->
-    <div class="relative z-10 mx-auto max-w-5xl px-6 md:px-12 lg:px-16 py-20 md:py-28 lg:py-40">
-      <nav class="flex justify-between items-center mb-20 md:mb-32">
-         <a href="/" class="text-xl font-bold tracking-tight hover:text-accent transition-colors">Etin Obaseki</a>
-         <ThemeToggle />
-      </nav>
-      <slot />
-      <footer class="mt-32 pt-16 border-t border-border">
-        <div class="grid md:grid-cols-2 gap-12">
-           <div>
-             <h3 class="text-2xl font-bold mb-4">Etin Obaseki</h3>
-             <p class="text-muted-foreground">Engineer; capable of great abstraction.</p>
-           </div>
-           <div class="flex justify-start md:justify-end gap-8">
-              <a href="https://github.com/obasekietinosa" class="text-muted-foreground hover:text-accent transition-colors font-mono uppercase text-sm tracking-wider">Github</a>
-              <a href="https://threads.com/e.t.i.n" class="text-muted-foreground hover:text-accent transition-colors font-mono uppercase text-sm tracking-wider">Threads</a>
-              <a href="mailto:me@etin.dev" class="text-muted-foreground hover:text-accent transition-colors font-mono uppercase text-sm tracking-wider">Email</a>
-           </div>
-        </div>
-        <div class="mt-16 text-xs text-muted-foreground font-mono">
-          &copy; {new Date().getFullYear()} Etin Obaseki. Designed with Bold.
-        </div>
-      </footer>
+
+    <!-- Outer Igun Foundry Bronze Plaque Frame -->
+    <div class="relative z-10 mx-auto max-w-5xl foundry-shell rounded-md bg-background/90 backdrop-blur-[1px]">
+      <!-- Corner Bronze Casting Rivets -->
+      <span class="plaque-rivet absolute top-3 left-3"></span>
+      <span class="plaque-rivet absolute top-3 right-3"></span>
+      <span class="plaque-rivet absolute bottom-3 left-3"></span>
+      <span class="plaque-rivet absolute bottom-3 right-3"></span>
+
+      <div class="px-6 md:px-14 lg:px-20 pt-10 md:pt-14 pb-16 md:pb-24">
+        <nav class="flex flex-wrap justify-between items-center gap-4 pb-8 mb-14 md:mb-20 border-b border-border">
+          <a href="/" class="flex items-center gap-3 group">
+            <span class="w-2.5 h-2.5 rotate-45 bg-accent inline-block transition-transform duration-300 group-hover:rotate-90"></span>
+            <span class="text-xl font-serif font-semibold tracking-tight group-hover:text-accent transition-colors">Etin Obaseki</span>
+          </a>
+
+          <div class="flex items-center gap-5 md:gap-8">
+            <a href="/experiences" class="text-xs md:text-sm font-mono uppercase tracking-wider text-muted-foreground hover:text-accent transition-colors">Experience</a>
+            <a href="/projects" class="text-xs md:text-sm font-mono uppercase tracking-wider text-muted-foreground hover:text-accent transition-colors">Work</a>
+            <a href="/notes" class="text-xs md:text-sm font-mono uppercase tracking-wider text-muted-foreground hover:text-accent transition-colors">Writing</a>
+            <ThemeToggle />
+          </div>
+        </nav>
+
+        <slot />
+
+        <footer class="mt-24 md:mt-32">
+          <div class="divider-guilloche mb-12"></div>
+          <div class="grid md:grid-cols-2 gap-10 items-end">
+            <div>
+              <h3 class="text-3xl font-serif font-semibold mb-2">Etin Obaseki</h3>
+              <p class="text-muted-foreground italic font-serif text-lg">Engineer; capable of great abstraction.</p>
+            </div>
+            <div class="flex justify-start md:justify-end gap-6 md:gap-8">
+              <a href="https://github.com/obasekietinosa" class="text-muted-foreground hover:text-accent transition-colors font-mono uppercase text-xs tracking-wider border border-border px-3 py-1.5 bg-card hover:border-accent">Github</a>
+              <a href="https://threads.com/e.t.i.n" class="text-muted-foreground hover:text-accent transition-colors font-mono uppercase text-xs tracking-wider border border-border px-3 py-1.5 bg-card hover:border-accent">Threads</a>
+              <a href="mailto:me@etin.dev" class="text-muted-foreground hover:text-accent transition-colors font-mono uppercase text-xs tracking-wider border border-border px-3 py-1.5 bg-card hover:border-accent">Email</a>
+            </div>
+          </div>
+          <div class="mt-12 pt-6 border-t border-border-subtle text-xs text-muted-foreground font-mono">
+            &copy; {new Date().getFullYear()} Etin Obaseki.
+          </div>
+        </footer>
+      </div>
     </div>
     <CookieBanner />
     <ImageModal />

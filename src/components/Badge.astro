@@ -3,25 +3,23 @@ import cx from "clsx";
 import type { Tag } from "../domains/Tags";
 
 type BadgeProps = {
-  icon: string;
+  icon?: string;
   name: string;
-  class: string;
-  color: Tag["color"];
+  class?: string;
+  color?: Tag["color"];
   [prop: string]: any;
 };
 
 const { class: className, icon, name, color, ...props } = Astro.props;
-
-// Redesign: Simple, minimal badge.
-// "Small accent badge... uppercase mono text"
-// We will use mono font, small text, outline or solid depending on context.
-// Let's go with a solid muted look or outlined.
-// The spec doesn't explicitly define "Badge" component styles for tags, but mentions "Small accent badge" for pricing.
-// For tags, let's stick to Mono Stack, small size, maybe border.
-// Let's use `border border-border text-xs font-mono uppercase tracking-wide px-2 py-1`
 ---
 
-<div class={cx("inline-flex items-center gap-2 border border-border px-3 py-1 bg-muted/50 text-muted-foreground font-mono text-xs uppercase tracking-wider", className)} {...props}>
-  <span class="text-accent">{icon}</span>
+<div
+  class={cx(
+    "inline-flex items-center gap-1.5 border border-patina/60 rounded-sm px-2.5 py-0.5 bg-patina-surface text-patina-foreground font-mono text-xs uppercase tracking-wider",
+    className
+  )}
+  {...props}
+>
+  {icon && <span class="text-accent">{icon}</span>}
   <span>{name}</span>
 </div>
