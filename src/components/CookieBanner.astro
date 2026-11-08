@@ -4,13 +4,13 @@ import Button from "./Button.astro";
 
 <div
   id="cookie-banner"
-  class="fixed bottom-0 left-0 right-0 bg-background border-t border-border p-6 z-50 hidden"
+  class="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border p-4 md:p-6 z-50 hidden"
 >
   <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-    <p class="text-sm md:text-base text-muted-foreground">
-      I use cookies to analyze traffic and improve the experience.
+    <p class="text-xs md:text-sm text-muted-foreground">
+      This site uses privacy-first, cookieless analytics by default. Accept optional cookies to help measure returning visits across sessions.
     </p>
-    <div class="flex gap-4">
+    <div class="flex gap-3 shrink-0">
       <Button id="cookie-decline" variant="ghost" size="sm">
         Decline
       </Button>
@@ -26,25 +26,31 @@ import Button from "./Button.astro";
   const acceptBtn = document.getElementById("cookie-accept");
   const declineBtn = document.getElementById("cookie-decline");
 
-  const consent = localStorage.getItem("cookie-consent");
+  const storedConsent =
+    localStorage.getItem("etin_analytics_consent") ||
+    localStorage.getItem("cookie-consent");
 
-  if (!consent && banner) {
+  if (!storedConsent && banner) {
     banner.classList.remove("hidden");
+  } else if (storedConsent === "accepted" && !localStorage.getItem("etin_analytics_consent")) {
+    localStorage.setItem("etin_analytics_consent", "granted");
   }
 
   acceptBtn?.addEventListener("click", () => {
-    if (window._paq) {
-      window._paq.push(["rememberCookieConsentGiven"]);
-    }
+    localStorage.setItem("etin_analytics_consent", "granted");
     localStorage.setItem("cookie-consent", "accepted");
+    if (window.etinAnalytics && typeof window.etinAnalytics.optIn === "function") {
+      window.etinAnalytics.optIn();
+    }
     banner?.classList.add("hidden");
   });
 
   declineBtn?.addEventListener("click", () => {
-    if (window._paq) {
-      window._paq.push(["forgetCookieConsentGiven"]);
-    }
+    localStorage.setItem("etin_analytics_consent", "declined");
     localStorage.setItem("cookie-consent", "declined");
+    if (window.etinAnalytics && typeof window.etinAnalytics.optOut === "function") {
+      window.etinAnalytics.optOut();
+    }
     banner?.classList.add("hidden");
   });
 </script>
